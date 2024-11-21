@@ -1,0 +1,145 @@
+<html>
+  <head>
+    <title>Teensport</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-image: url("bg.png");
+        background-size: cover;
+        color: white;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: black;
+      }
+      .header .logo {
+        display: flex;
+        align-items: center;
+      }
+      .header .logo img {
+        height: 40px;
+        margin-right: 10px;
+      }
+      .header .logo span {
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .header .user-info {
+        display: flex;
+        align-items: center;
+      }
+      .header .user-info span {
+        margin-right: 10px;
+      }
+      .header .user-info i {
+        font-size: 24px;
+      }
+      .nav {
+        display: flex;
+        justify-content: center;
+        background-color: #2d572c;
+        padding: 10px 0;
+      }
+      .nav a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        margin: 0 5px;
+        background-color: #3a7d34;
+        border-radius: 5px;
+      }
+      .nav a:hover {
+        background-color: #2d572c;
+      }
+      .content {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: calc(100vh - 120px);
+      }
+      .content .item {
+        text-align: center;
+      }
+      .content .item img {
+        width: 150px;
+        height: 150px;
+      }
+      .content .item button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #3a7d34;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .content .item button:hover {
+        background-color: #2d572c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo">
+        <img
+          alt="Teensport Logo"
+          height="40"
+          src="https://storage.googleapis.com/a1aa/image/LbiDKuLfcXzhGSP2zhqNzNSlSQjwJGOKpdfOKkMqfmacPSmnA.jpg"
+          width="40"
+        />
+        <span> TEENSPORT </span>
+      </div>
+      <div class="user-info">
+        <span> USER NAME </span>
+        <i class="fas fa-user-circle"> </i>
+      </div>
+    </div>
+    <div class="nav">
+      <a href="#"> USER PROFILE </a>
+      <a href="#"> WORKOUT </a>
+      <a href="#"> TUTORIAL </a>
+      <a href="#"> SCHEDULE </a>
+      <a href="#"> REKOMENDASI </a>
+    </div>
+    <div class="content">
+      <div class="item">
+        <img
+          alt="Arm Icon"
+          height="150"
+          src="https://storage.googleapis.com/a1aa/image/Btl9BDWle6yRB6QjSpLWSeMiK4St3wbn4k6WNwZfzE1ZPSmnA.jpg"
+          width="150"
+        />
+        <p>Arm</p>
+        <button>SELECT</button>
+      </div>
+      <div class="item">
+        <img
+          alt="Body Icon"
+          height="150"
+          src="https://storage.googleapis.com/a1aa/image/yXmnfDd5FWXFSyMYkYcublIbsRXMbflf0PnR5wkNGFWVPSmnA.jpg"
+          width="150"
+        />
+        <p>Body</p>
+        <button>SELECT</button>
+      </div>
+      <div class="item">
+        <img
+          alt="Legs Icon"
+          height="150"
+          src="https://storage.googleapis.com/a1aa/image/nte4CrIahK39ZqBGZHR60d0fk1WG9a5ShzQa4EJ0YjEoHJzTA.jpg"
+          width="150"
+        />
+        <p>Legs</p>
+        <button>SELECT</button>
+      </div>
+    </div>
+  </body>
+</html>
