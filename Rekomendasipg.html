@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <title>TeensSport</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="logo">
+        <img src="teensport 1.png" />
+      </div>
+      <div class="menu">
+        <a href="Home.html"> HOME </a>
+        <a href="WorkoutPG.html"> WORKOUT </a>
+        <a href="TutorialPG.html"> TUTORIAL </a>
+        <a href="SchedulePG.html"> SCHEDULE </a>
+        <a class="active" href="Rekomendasipg.html"> REKOMENDASI </a>
+      </div>
+      <div class="user">
+        <img
+          alt="User profile picture"
+          height="30"
+          src="https://storage.googleapis.com/a1aa/image/iAdIgMpnUK52EhdRrc4n1bSJ9iUYY77WqjmWSHGInjSRzn9E.jpg"
+          width="30"
+        />
+      </div>
+    </div>
+    <div></div>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 30;
+    font-family: "KOULEN", sans-serif;
+    background-color: #333;
+    color: white;
+    background-image: url("HomeBG.png");
+  }
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1a1a1a;
+    padding: 10px 20px;
+  }
+  .navbar .logo img {
+    height: 40px;
+  }
+  .navbar .menu {
+    display: flex;
+    gap: 20px;
+  }
+  .navbar .menu a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #2d2d2d;
+    border-radius: 5px;
+  }
+  .navbar .menu a.active {
+    border-bottom: solid #4caf50;
+  }
+  .navbar .user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .navbar .user img {
+    height: 30px;
+    border-radius: 50%;
+  }
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 60px);
+    background: url("HomeBG.png") no-repeat center center/cover;
+    text-align: center;
+  }
+  .content h1 {
+    font-size: 48px;
+    margin: 0;
+  }
+</style>
