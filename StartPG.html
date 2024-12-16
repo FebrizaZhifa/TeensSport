@@ -1,281 +1,307 @@
-<div class="container">
-  <h2>Choose Your Exercise</h2>
-  <div class="list">
-    <div class="form-element">
-      <input
-        type="checkbox"
-        name="Exercise"
-        value="Bench Press"
-        id="Bench Press"
-      />
-      <label for="Bench Press">
-        <div class="icon">
-          <img
-            width="25"
-            height="25"
-            src="https://img.icons8.com/ios-filled/50/chest.png"
-            alt="chest"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Roboto", sans-serif;
+        background: url(HomeBG.png);
+      }
+      .container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .container h2 {
+        font-size: 25px;
+        color: #27a101;
+        text-align: center;
+      }
+      .container .list {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        max-width: 650px;
+      }
+      .form-element {
+        position: relative;
+        width: 100px;
+        height: 100px;
+      }
+      .form-element input {
+        display: none;
+      }
+      .form-element label {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        cursor: pointer;
+        border: 5px solid #858585;
+        background: #fff;
+        box-shadow: 0px 5px 20px 2px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: all 200ms ease-in-out;
+        border-radius: 20px;
+      }
+      .form-element .icon {
+        margin-top: 10px;
+        font-size: 30px;
+        color: #555;
+        transition: all 200ms ease-in-out;
+      }
+      .form-element .title {
+        font-size: 15px;
+        color: #555;
+        padding: 5px 0px;
+        transition: all 200ms ease-in-out;
+      }
+      .form-element label:before {
+        content: "✓";
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        top: 8px;
+        left: 8px;
+        background: #27a101;
+        color: #fff;
+        text-align: center;
+        line-height: 18px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 50%;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: all 200ms ease-in-out;
+      }
+      .form-element input:checked + label:before {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .form-element input:checked + label .icon {
+        color: #27a101;
+      }
+      .form-element input:checked + label .title {
+        color: #27a101;
+      }
+      .form-element input:checked + label {
+        border: 2px solid #27a101;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Choose Your Exercise</h2>
+      <div class="inputbox">
+        <ion-icon name="person"></ion-icon>
+        <input id="exercise-name" type="string" required />
+        <label for="">Exercise Name</label>
+      </div>
+      <div class="list">
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Bench Press"
+            id="Bench Press"
           />
+          <label for="Bench Press">
+            <div class="icon">
+              <img
+                width="25"
+                height="25"
+                src="https://img.icons8.com/ios-filled/50/chest.png"
+                alt="chest"
+              />
+            </div>
+            <div class="title">Bench Press</div>
+          </label>
         </div>
-        <div class="title">Bench Press</div>
-      </label>
-    </div>
-    <div class="form-element">
-      <input type="checkbox" name="Exercise" value="Chest Fly" id="Chest Fly" />
-      <label for="Chest Fly">
-        <div class="icon">
-          <img
-            width="25"
-            height="25"
-            src="https://img.icons8.com/ios-filled/50/chest.png"
-            alt="chest"
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Chest Fly"
+            id="Chest Fly"
           />
+          <label for="Chest Fly">
+            <div class="icon">
+              <img
+                width="25"
+                height="25"
+                src="https://img.icons8.com/ios-filled/50/chest.png"
+                alt="chest"
+              />
+            </div>
+            <div class="title">Chest Fly</div>
+          </label>
         </div>
-        <div class="title">Chest Fly</div>
-      </label>
-    </div>
-    <div class="form-element">
-      <input
-        type="checkbox"
-        name="Exercise"
-        value="Lat Pulldown"
-        id="Lat Pulldown"
-      />
-      <label for="Lat Pulldown">
-        <div class="icon">
-          <img
-            width="25"
-            height="25"
-            src="https://img.icons8.com/ios-filled/50/back-muscles.png"
-            alt="back-muscles"
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Lat Pulldown"
+            id="Lat Pulldown"
           />
+          <label for="Lat Pulldown">
+            <div class="icon">
+              <img
+                width="25"
+                height="25"
+                src="https://img.icons8.com/ios-filled/50/back-muscles.png"
+                alt="back-muscles"
+              />
+            </div>
+            <div class="title">Lat Pulldown</div>
+          </label>
         </div>
-        <div class="title">Lat Pulldown</div>
-      </label>
-    </div>
-    <div class="form-element">
-      <input type="checkbox" name="Exercise" value="Cable Row" id="Cable Row" />
-      <label for="Cable Row">
-        <div class="icon">
-          <img
-            width="25"
-            height="25"
-            src="https://img.icons8.com/ios-filled/50/back-muscles.png"
-            alt="back-muscles"
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Cable Row"
+            id="Cable Row"
           />
+          <label for="Cable Row">
+            <div class="icon">
+              <img
+                width="25"
+                height="25"
+                src="https://img.icons8.com/ios-filled/50/back-muscles.png"
+                alt="back-muscles"
+              />
+            </div>
+            <div class="title">Cable Row</div>
+          </label>
         </div>
-        <div class="title">Cable Row</div>
-      </label>
-    </div>
-    <div class="form-element">
-      <input
-        type="checkbox"
-        name="Exercise"
-        value="Biceps Curl"
-        id="Biceps Curl"
-      />
-      <label for="Biceps Curl">
-        <div class="icon">
-          <img
-            width="25"
-            height="25"
-            src="https://img.icons8.com/ios-filled/50/biceps.png"
-            alt="biceps"
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Biceps Curl"
+            id="Biceps Curl"
           />
+          <label for="Biceps Curl">
+            <div class="icon">
+              <img
+                width="25"
+                height="25"
+                src="https://img.icons8.com/ios-filled/50/biceps.png"
+                alt="biceps"
+              />
+            </div>
+            <div class="title">Biceps Curl</div>
+          </label>
         </div>
-        <div class="title">Biceps Curl</div>
-      </label>
-    </div>
-    <div class="form-element">
-      <input
-        type="checkbox"
-        name="Exercise"
-        value="Hammer Curl"
-        id="Hammer Curl"
-      />
-      <label for="Hammer Curl">
-        <div class="icon">
-          <img
-            width="25"
-            height="25"
-            src="https://img.icons8.com/ios-filled/50/biceps.png"
-            alt="biceps"
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Hammer Curl"
+            id="Hammer Curl"
           />
+          <label for="Hammer Curl">
+            <div class="icon">
+              <img
+                width="25"
+                height="25"
+                src="https://img.icons8.com/ios-filled/50/biceps.png"
+                alt="biceps"
+              />
+            </div>
+            <div class="title">Hammer Curl</div>
+          </label>
         </div>
-        <div class="title">Hammer Curl</div>
-      </label>
-    </div>
-    <div class="form-element">
-      <input
-        type="checkbox"
-        name="Exercise"
-        value="Triceps Push"
-        id="Triceps Push"
-      />
-      <label for="Triceps Push">
-        <div class="icon">
-          <img
-            width="25"
-            height="25"
-            src="https://img.icons8.com/ios-filled/50/triceps.png"
-            alt="triceps"
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Triceps Push"
+            id="Triceps Push"
           />
+          <label for="Triceps Push">
+            <div class="icon">
+              <img
+                width="25"
+                height="25"
+                src="https://img.icons8.com/ios-filled/50/triceps.png"
+                alt="triceps"
+              />
+            </div>
+            <div class="title">Triceps Push</div>
+          </label>
         </div>
-        <div class="title">Triceps Push</div>
-      </label>
-    </div>
-    <div class="form-element">
-      <input
-        type="checkbox"
-        name="Exercise"
-        value="Skullcrusher"
-        id="Skullcrusher"
-      />
-      <label for="Skullcrusher">
-        <div class="icon">
-          <img
-            width="25"
-            height="25"
-            src="https://img.icons8.com/ios-filled/50/triceps.png"
-            alt="triceps"
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Skullcrusher"
+            id="Skullcrusher"
           />
+          <label for="Skullcrusher">
+            <div class="icon">
+              <img
+                width="25"
+                height="25"
+                src="https://img.icons8.com/ios-filled/50/triceps.png"
+                alt="triceps"
+              />
+            </div>
+            <div class="title">Skullcrusher</div>
+          </label>
         </div>
-        <div class="title">Skullcrusher</div>
-      </label>
-    </div>
-    <div class="form-element">
-      <input
-        type="checkbox"
-        name="Exercise"
-        value="Lateral Raise"
-        id="Lateral Raise"
-      />
-      <label for="Lateral Raise">
-        <div class="icon">
-          <img
-            width="25"
-            height="25"
-            src="https://img.icons8.com/ios-filled/50/shoulders.png"
-            alt="shoulders"
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Lateral Raise"
+            id="Lateral Raise"
           />
+          <label for="Lateral Raise">
+            <div class="icon">
+              <img
+                width="25"
+                height="25"
+                src="https://img.icons8.com/ios-filled/50/shoulders.png"
+                alt="shoulders"
+              />
+            </div>
+            <div class="title">Lateral Raise</div>
+          </label>
         </div>
-        <div class="title">Lateral Raise</div>
-      </label>
-    </div>
-    <div class="form-element">
-      <input
-        type="checkbox"
-        name="Exercise"
-        value="Front Raise"
-        id="Front Raise"
-      />
-      <label for="Front Raise">
-        <div class="icon">
-          <img
-            width="25"
-            height="25"
-            src="https://img.icons8.com/ios-filled/50/shoulders.png"
-            alt="shoulders"
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Front Raise"
+            id="Front Raise"
           />
+          <label for="Front Raise">
+            <div class="icon">
+              <img
+                width="25"
+                height="25"
+                src="https://img.icons8.com/ios-filled/50/shoulders.png"
+                alt="shoulders"
+              />
+            </div>
+            <div class="title">Front Raise</div>
+          </label>
         </div>
-        <div class="title">Front Raise</div>
-      </label>
+        <button id="submit">submit</button>
+      </div>
     </div>
-  </div>
-</div>
-
-<style>
-  * {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-  }
-  body {
-    font-family: "Roboto", sans-serif;
-    background: url(HomeBG.png);
-  }
-  .container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .container h2 {
-    font-size: 25px;
-    color: #27a101;
-    text-align: center;
-  }
-  .container .list {
-    margin-top: 40px;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    max-width: 650px;
-  }
-  .form-element {
-    position: relative;
-    width: 100px;
-    height: 100px;
-  }
-  .form-element input {
-    display: none;
-  }
-  .form-element label {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-    cursor: pointer;
-    border: 5px solid #858585;
-    background: #fff;
-    box-shadow: 0px 5px 20px 2px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: all 200ms ease-in-out;
-    border-radius: 20px;
-  }
-  .form-element .icon {
-    margin-top: 10px;
-    font-size: 30px;
-    color: #555;
-    transition: all 200ms ease-in-out;
-  }
-  .form-element .title {
-    font-size: 15px;
-    color: #555;
-    padding: 5px 0px;
-    transition: all 200ms ease-in-out;
-  }
-  .form-element label:before {
-    content: "✓";
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    top: 8px;
-    left: 8px;
-    background: #27a101;
-    color: #fff;
-    text-align: center;
-    line-height: 18px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 50%;
-    opacity: 0;
-    transform: scale(0.5);
-    transition: all 200ms ease-in-out;
-  }
-  .form-element input:checked + label:before {
-    opacity: 1;
-    transform: scale(1);
-  }
-  .form-element input:checked + label .icon {
-    color: #27a101;
-  }
-  .form-element input:checked + label .title {
-    color: #27a101;
-  }
-  .form-element input:checked + label {
-    border: 2px solid #27a101;
-  }
-</style>
+    <script src="StartPG.js"></script>
+  </body>
+</html>
