@@ -163,45 +163,53 @@
     <script>
         // JavaScript untuk menangani login form
         document.getElementById('loginForm').addEventListener('submit', async function (e) {
-            e.preventDefault(); // Mencegah halaman reload
+    e.preventDefault(); // Prevent page reload
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const rememberMe = document.getElementById('rememberMe').checked;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const rememberMe = document.getElementById('rememberMe').checked;
 
-            try {
-                // Kirim data ke backend
-                const response = await fetch('http://localhost:5000/api/users/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password }),
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    alert('Login successful!');
-                    
-                    if (rememberMe) {
-                        localStorage.setItem('user', JSON.stringify({ email }));
-                    }
-
-                    window.location.href = 'Home.html'; // Redirect ke halaman Home.html
-                  } else {
-                    alert('Error: ' + (result.message || 'Invalid email or password'));
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error: Could not connect to the server.');
-            }
+    try {
+        // Send data to backend
+        const response = await fetch('http://localhost:5000/api/users/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
         });
 
-        // Memeriksa apakah pengguna sebelumnya memilih "Remember Me"
-        const storedUser = JSON.parse(localStorage.getItem('user'));
-        if (storedUser) {
-            document.getElementById('email').value = storedUser.email;
-            document.getElementById('rememberMe').checked = true;
+        if (!response.ok) {
+            const errorData = await response.json();
+            alert(`Error: ${errorData.message || 'Invalid email or password'}`);
+            return;
         }
+
+        const data = await response.json(); // Get the token from the server response'
+        const token = data.token;
+
+        // Save the token in localStorage
+        localStorage.setItem('authToken', token);
+        console.log('Token saved successfully:', token);
+
+        // Save user info if "Remember Me" is checked
+        if (rememberMe) {
+            localStorage.setItem('user', JSON.stringify({ email }));
+        }
+
+        alert('Login successful!');
+        window.location.href = 'Home.html'; // Redirect to Home.html
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error: Could not connect to the server.');
+    }
+});
+
+// Check if "Remember Me" was previously selected
+const storedUser = JSON.parse(localStorage.getItem('user'));
+if (storedUser) {
+    document.getElementById('email').value = storedUser.email;
+    document.getElementById('rememberMe').checked = true;
+}
+
     </script>
 </body>
 </html>

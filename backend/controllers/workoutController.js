@@ -11,7 +11,7 @@ exports.createWorkout = async (req, res) => {
         );
         res.status(201).json({ message: 'Workout berhasil ditambahkan' });
     } catch (error) {
-        res.status(500).json({ error: 'Error saat menambahkan workout' });
+        res.status(500).json({ error: error });
     }
 };
 
