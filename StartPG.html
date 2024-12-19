@@ -5,101 +5,156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      * {
-        margin: 0px;
-        padding: 0px;
-        box-sizing: border-box;
+          * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+          }
+          body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            background: url("Images/HomeBG.png");
+            background-position: center;
+            background-size: cover;
       }
-      body {
-        font-family: "Roboto", sans-serif;
-        background: url(HomeBG.png);
-      }
-      .container {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-      .container h2 {
-        font-size: 25px;
-        color: #27a101;
-        text-align: center;
-      }
-      .container .list {
-        margin-top: 40px;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 20px;
-        max-width: 650px;
-      }
-      .form-element {
-        position: relative;
-        width: 100px;
-        height: 100px;
-      }
-      .form-element input {
-        display: none;
-      }
-      .form-element label {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: 100%;
-        cursor: pointer;
-        border: 5px solid #858585;
-        background: #fff;
-        box-shadow: 0px 5px 20px 2px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        transition: all 200ms ease-in-out;
-        border-radius: 20px;
-      }
-      .form-element .icon {
-        margin-top: 10px;
-        font-size: 30px;
-        color: #555;
-        transition: all 200ms ease-in-out;
-      }
-      .form-element .title {
-        font-size: 15px;
-        color: #555;
-        padding: 5px 0px;
-        transition: all 200ms ease-in-out;
-      }
-      .form-element label:before {
-        content: "✓";
-        position: absolute;
-        width: 18px;
-        height: 18px;
-        top: 8px;
-        left: 8px;
-        background: #27a101;
-        color: #fff;
-        text-align: center;
-        line-height: 18px;
-        font-size: 14px;
-        font-weight: 600;
-        border-radius: 50%;
-        opacity: 0;
-        transform: scale(0.5);
-        transition: all 200ms ease-in-out;
-      }
-      .form-element input:checked + label:before {
-        opacity: 1;
-        transform: scale(1);
-      }
-      .form-element input:checked + label .icon {
-        color: #27a101;
-      }
-      .form-element input:checked + label .title {
-        color: #27a101;
-      }
-      .form-element input:checked + label {
-        border: 2px solid #27a101;
-      }
+          }
+          .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+          .container h2 {
+            font-size: 25px;
+            color: #27a101;
+            text-align: center;
+          }
+          .container .list {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 650px;
+          }
+          .form-element {
+            position: relative;
+            width: 100px;
+            height: 100px;
+          }
+          .form-element input {
+            display: none;
+          }
+          .form-element label {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            cursor: pointer;
+            border: 5px solid #858585;
+            background: #fff;
+            box-shadow: 0px 5px 20px 2px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 200ms ease-in-out;
+            border-radius: 20px;
+          }
+          .form-element .icon {
+            margin-top: 10px;
+            font-size: 30px;
+            color: #555;
+            transition: all 200ms ease-in-out;
+          }
+          .form-element .title {
+            font-size: 15px;
+            color: #555;
+            padding: 5px 0px;
+            transition: all 200ms ease-in-out;
+          }
+          .form-element label:before {
+            content: "✓";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            top: 8px;
+            left: 8px;
+            background: #27a101;
+            color: #fff;
+            text-align: center;
+            line-height: 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 200ms ease-in-out;
+          }
+          .form-element input:checked + label:before {
+            opacity: 1;
+            transform: scale(1);
+          }
+          .form-element input:checked + label .icon {
+            color: #27a101;
+          }
+          .form-element input:checked + label .title {
+            color: #27a101;
+          }
+          .form-element input:checked + label {
+            border: 2px solid #27a101;
+          }
+
+          .inputbox {
+            position: relative;
+            margin: 30px 0;
+            width: 310px;
+            border-bottom: 2px solid #4caf50;
+            left: 165px;
+          }
+
+          .inputbox label {
+            position: absolute;
+            top: 50%;
+            left: 100px;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 1em;
+            pointer-events: none;
+            transition: 0.5s;
+          }
+          input:focus ~ label {
+            top: -5px;
+          }
+          input:valid ~ label {
+            top: -5px;
+          }
+
+          .inputbox input {
+            width: 100%;
+            height: 50px;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 1em;
+            padding: 0 35px 0 5px;
+            color: #fff;
+          }
+          button {
+            width: 100%;
+            height: 40px;
+            border-radius: 40px;
+            background: #4caf50;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+          }
     </style>
   </head>
+
   <body>
     <div class="container">
       <h2>Choose Your Exercise</h2>
