@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create/Edit Workout</title>
     <style>
-          * {
+        * {
             margin: 0px;
             padding: 0px;
             box-sizing: border-box;
-          }
-          body {
+        }
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,61 +19,68 @@
             background: url("Images/HomeBG.png");
             background-position: center;
             background-size: cover;
-      }
-          .container {
+        }
+        .container {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-          }
-          .container h2 {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+        .container h2 {
             font-size: 25px;
             color: #27a101;
-            text-align: center;
-          }
-          .container .list {
-            margin-top: 40px;
+        }
+        .inputbox {
+            margin: 20px 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .inputbox input {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #4caf50;
+            border-radius: 5px;
+        }
+        .list {
+            margin-top: 20px;
+            display: flex;
             flex-wrap: wrap;
-            gap: 20px;
-            max-width: 650px;
-          }
-          .form-element {
+            gap: 15px;
+            justify-content: center;
+        }
+        .form-element {
             position: relative;
             width: 100px;
             height: 100px;
-          }
-          .form-element input {
+            text-align: center;
+        }
+        .form-element input {
             display: none;
-          }
-          .form-element label {
-            width: 100%;
+        }
+        .form-element label {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            height: 100%;
-            cursor: pointer;
+            align-items: center;
+            padding: 10px;
+            background-color: #fff;
             border: 5px solid #858585;
-            background: #fff;
-            box-shadow: 0px 5px 20px 2px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: all 200ms ease-in-out;
             border-radius: 20px;
-          }
-          .form-element .icon {
-            margin-top: 10px;
-            font-size: 30px;
-            color: #555;
-            transition: all 200ms ease-in-out;
-          }
-          .form-element .title {
-            font-size: 15px;
-            color: #555;
-            padding: 5px 0px;
-            transition: all 200ms ease-in-out;
-          }
-          .form-element label:before {
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .form-element input:checked + label {
+            border-color: #27a101;
+            background-color: #27a101;
+        }
+        .form-element label:before {
             content: "✓";
             position: absolute;
             width: 18px;
@@ -90,274 +97,204 @@
             opacity: 0;
             transform: scale(0.5);
             transition: all 200ms ease-in-out;
-          }
-          .form-element input:checked + label:before {
+        }
+        .form-element input:checked + label:before {
             opacity: 1;
             transform: scale(1);
-          }
-          .form-element input:checked + label .icon {
-            color: #27a101;
-          }
-          .form-element input:checked + label .title {
-            color: #27a101;
-          }
-          .form-element input:checked + label {
-            border: 2px solid #27a101;
-          }
-
-          .inputbox {
-            position: relative;
-            margin: 30px 0;
-            width: 310px;
-            border-bottom: 2px solid #4caf50;
-            left: 165px;
-          }
-
-          .inputbox label {
-            position: absolute;
-            top: 50%;
-            left: 100px;
-            transform: translateY(-50%);
-            color: #fff;
-            font-size: 1em;
-            pointer-events: none;
-            transition: 0.5s;
-          }
-          input:focus ~ label {
-            top: -5px;
-          }
-          input:valid ~ label {
-            top: -5px;
-          }
-
-          .inputbox input {
-            width: 100%;
-            height: 50px;
-            background: transparent;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
             border: none;
-            outline: none;
-            font-size: 1em;
-            padding: 0 35px 0 5px;
-            color: #fff;
-          }
-          button {
-            width: 100%;
-            height: 40px;
-            border-radius: 40px;
-            background: #4caf50;
-            border: none;
-            outline: none;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-          }
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
     </style>
-  </head>
-
-  <body>
+</head>
+<body>
     <div class="container">
-      <h2>Choose Your Exercise</h2>
-      <div class="inputbox">
-        <ion-icon name="person"></ion-icon>
-        <input id="exercise-name" type="string" required />
-        <label for="">Exercise Name</label>
-      </div>
-      <div class="list">
-        <div class="form-element">
-          <input
-            type="checkbox"
-            name="Exercise"
-            value="Bench Press"
-            id="Bench Press"
-          />
-          <label for="Bench Press">
-            <div class="icon">
-              <img
-                width="25"
-                height="25"
-                src="https://img.icons8.com/ios-filled/50/chest.png"
-                alt="chest"
-              />
-            </div>
-            <div class="title">Bench Press</div>
-          </label>
+        <h2 id="pageTitle">Create/Edit Workout</h2>
+        <div class="inputbox">
+            <label for="workoutName">Workout Name</label>
+            <input id="workoutName" type="text" placeholder="Enter Workout Name" required>
         </div>
-        <div class="form-element">
-          <input
-            type="checkbox"
-            name="Exercise"
-            value="Chest Fly"
-            id="Chest Fly"
-          />
-          <label for="Chest Fly">
-            <div class="icon">
-              <img
-                width="25"
-                height="25"
-                src="https://img.icons8.com/ios-filled/50/chest.png"
-                alt="chest"
-              />
+        <div class="list">
+            <!-- Chest -->
+            <div class="form-element">
+                <input type="checkbox" name="Exercise" value="Bench Press" id="Bench Press">
+                <label for="Bench Press">
+                    <div class="icon">
+                        <img src="https://img.icons8.com/ios-filled/50/chest.png" alt="Bench Press" width="30">
+                    </div>
+                    <div class="title">Bench Press</div>
+                </label>
             </div>
-            <div class="title">Chest Fly</div>
-          </label>
-        </div>
-        <div class="form-element">
-          <input
-            type="checkbox"
-            name="Exercise"
-            value="Lat Pulldown"
-            id="Lat Pulldown"
-          />
-          <label for="Lat Pulldown">
-            <div class="icon">
-              <img
-                width="25"
-                height="25"
-                src="https://img.icons8.com/ios-filled/50/back-muscles.png"
-                alt="back-muscles"
-              />
+            <div class="form-element">
+                <input type="checkbox" name="Exercise" value="Chest Fly" id="Chest Fly">
+                <label for="Chest Fly">
+                    <div class="icon">
+                        <img src="https://img.icons8.com/ios-filled/50/chest.png" alt="Chest Fly" width="30">
+                    </div>
+                    <div class="title">Chest Fly</div>
+                </label>
             </div>
-            <div class="title">Lat Pulldown</div>
-          </label>
-        </div>
-        <div class="form-element">
-          <input
-            type="checkbox"
-            name="Exercise"
-            value="Cable Row"
-            id="Cable Row"
-          />
-          <label for="Cable Row">
-            <div class="icon">
-              <img
-                width="25"
-                height="25"
-                src="https://img.icons8.com/ios-filled/50/back-muscles.png"
-                alt="back-muscles"
-              />
+            <!-- Back Muscles -->
+            <div class="form-element">
+                <input type="checkbox" name="Exercise" value="Lat Pulldown" id="Lat Pulldown">
+                <label for="Lat Pulldown">
+                    <div class="icon">
+                        <img src="https://img.icons8.com/ios-filled/50/back-muscles.png" alt="Lat Pulldown" width="30">
+                    </div>
+                    <div class="title">Lat Pulldown</div>
+                </label>
             </div>
-            <div class="title">Cable Row</div>
-          </label>
-        </div>
-        <div class="form-element">
-          <input
-            type="checkbox"
-            name="Exercise"
-            value="Biceps Curl"
-            id="Biceps Curl"
-          />
-          <label for="Biceps Curl">
-            <div class="icon">
-              <img
-                width="25"
-                height="25"
-                src="https://img.icons8.com/ios-filled/50/biceps.png"
-                alt="biceps"
-              />
+            <div class="form-element">
+                <input type="checkbox" name="Exercise" value="Cable Row" id="Cable Row">
+                <label for="Cable Row">
+                    <div class="icon">
+                        <img src="https://img.icons8.com/ios-filled/50/back-muscles.png" alt="Cable Row" width="30">
+                    </div>
+                    <div class="title">Cable Row</div>
+                </label>
             </div>
-            <div class="title">Biceps Curl</div>
-          </label>
-        </div>
-        <div class="form-element">
-          <input
-            type="checkbox"
-            name="Exercise"
-            value="Hammer Curl"
-            id="Hammer Curl"
-          />
-          <label for="Hammer Curl">
-            <div class="icon">
-              <img
-                width="25"
-                height="25"
-                src="https://img.icons8.com/ios-filled/50/biceps.png"
-                alt="biceps"
-              />
+            <!-- Biceps -->
+            <div class="form-element">
+                <input type="checkbox" name="Exercise" value="Biceps Curl" id="Biceps Curl">
+                <label for="Biceps Curl">
+                    <div class="icon">
+                        <img src="https://img.icons8.com/ios-filled/50/biceps.png" alt="Biceps Curl" width="30">
+                    </div>
+                    <div class="title">Biceps Curl</div>
+                </label>
             </div>
-            <div class="title">Hammer Curl</div>
-          </label>
-        </div>
-        <div class="form-element">
-          <input
-            type="checkbox"
-            name="Exercise"
-            value="Triceps Push"
-            id="Triceps Push"
-          />
-          <label for="Triceps Push">
-            <div class="icon">
-              <img
-                width="25"
-                height="25"
-                src="https://img.icons8.com/ios-filled/50/triceps.png"
-                alt="triceps"
-              />
+            <div class="form-element">
+                <input type="checkbox" name="Exercise" value="Hammer Curl" id="Hammer Curl">
+                <label for="Hammer Curl">
+                    <div class="icon">
+                        <img src="https://img.icons8.com/ios-filled/50/biceps.png" alt="Hammer Curl" width="30">
+                    </div>
+                    <div class="title">Hammer Curl</div>
+                </label>
             </div>
-            <div class="title">Triceps Push</div>
-          </label>
-        </div>
-        <div class="form-element">
-          <input
-            type="checkbox"
-            name="Exercise"
-            value="Skullcrusher"
-            id="Skullcrusher"
-          />
-          <label for="Skullcrusher">
-            <div class="icon">
-              <img
-                width="25"
-                height="25"
-                src="https://img.icons8.com/ios-filled/50/triceps.png"
-                alt="triceps"
-              />
+            <!-- Triceps -->
+            <div class="form-element">
+                <input type="checkbox" name="Exercise" value="Triceps Push" id="Triceps Push">
+                <label for="Triceps Push">
+                    <div class="icon">
+                        <img src="https://img.icons8.com/ios-filled/50/triceps.png" alt="Triceps Push" width="30">
+                    </div>
+                    <div class="title">Triceps Push</div>
+                </label>
             </div>
-            <div class="title">Skullcrusher</div>
-          </label>
-        </div>
-        <div class="form-element">
-          <input
-            type="checkbox"
-            name="Exercise"
-            value="Lateral Raise"
-            id="Lateral Raise"
-          />
-          <label for="Lateral Raise">
-            <div class="icon">
-              <img
-                width="25"
-                height="25"
-                src="https://img.icons8.com/ios-filled/50/shoulders.png"
-                alt="shoulders"
-              />
+            <div class="form-element">
+                <input type="checkbox" name="Exercise" value="Skullcrusher" id="Skullcrusher">
+                <label for="Skullcrusher">
+                    <div class="icon">
+                        <img src="https://img.icons8.com/ios-filled/50/triceps.png" alt="Skullcrusher" width="30">
+                    </div>
+                    <div class="title">Skullcrusher</div>
+                </label>
             </div>
-            <div class="title">Lateral Raise</div>
-          </label>
-        </div>
-        <div class="form-element">
-          <input
-            type="checkbox"
-            name="Exercise"
-            value="Front Raise"
-            id="Front Raise"
-          />
-          <label for="Front Raise">
-            <div class="icon">
-              <img
-                width="25"
-                height="25"
-                src="https://img.icons8.com/ios-filled/50/shoulders.png"
-                alt="shoulders"
-              />
+            <!-- Shoulders -->
+            <div class="form-element">
+                <input type="checkbox" name="Exercise" value="Lateral Raise" id="Lateral Raise">
+                <label for="Lateral Raise">
+                    <div class="icon">
+                        <img src="https://img.icons8.com/ios-filled/50/shoulders.png" alt="Lateral Raise" width="30">
+                    </div>
+                    <div class="title">Lateral Raise</div>
+                </label>
             </div>
-            <div class="title">Front Raise</div>
-          </label>
+            <div class="form-element">
+                <input type="checkbox" name="Exercise" value="Front Raise" id="Front Raise">
+                <label for="Front Raise">
+                    <div class="icon">
+                        <img src="https://img.icons8.com/ios-filled/50/shoulders.png" alt="Front Raise" width="30">
+                    </div>
+                    <div class="title">Front Raise</div>
+                </label>
+            </div>
         </div>
-        <a href="Home.html">
-          <button id="submit">Submit</button>
-        </a>
-      </div>
+        <button id="submitWorkout">Save Workout</button>
     </div>
-    <script src="StartPG.js"></script>
-  </body>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const workoutId = localStorage.getItem("workoutId");
+            if (workoutId) {
+                document.getElementById("pageTitle").textContent = "Edit Workout";
+                await loadWorkoutDetails(workoutId);
+            } else {
+                document.getElementById("pageTitle").textContent = "Create Workout";
+            }
+        });
+
+        async function loadWorkoutDetails(id) {
+            const token = localStorage.getItem("authToken");
+            try {
+                const response = await fetch(`http://localhost:5000/api/workouts/${id}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to load workout.");
+                }
+
+                const workout = await response.json();
+                document.getElementById("workoutName").value = workout.name;
+
+                workout.exercises.forEach((exercise) => {
+                    const checkbox = document.getElementById(exercise);
+                    if (checkbox) checkbox.checked = true;
+                });
+            } catch (error) {
+                console.error("Error loading workout details:", error);
+            }
+        }
+
+        document.getElementById("submitWorkout").addEventListener("click", async () => {
+            const workoutId = localStorage.getItem("workoutId");
+            const workoutName = document.getElementById("workoutName").value;
+            const selectedExercises = Array.from(document.querySelectorAll("input[type='checkbox']:checked"))
+                .map((checkbox) => checkbox.value);
+
+            if (!workoutName || selectedExercises.length === 0) {
+                alert("Please fill out the workout name and select at least one exercise.");
+                return;
+            }
+
+            const token = localStorage.getItem("authToken");
+            const endpoint = workoutId
+                ? `http://localhost:5000/api/workouts/${workoutId}`
+                : "http://localhost:5000/api/workouts";
+            const method = workoutId ? "PUT" : "POST";
+
+            try {
+                const response = await fetch(endpoint, {
+                    method,
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}` },
+                    body: JSON.stringify({ name: workoutName, exercises: selectedExercises }),
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to save workout.");
+                }
+
+                alert("Workout saved successfully!");
+                localStorage.removeItem("workoutId");
+                window.location.href = "WorkoutPG.html";
+            } catch (error) {
+                console.error("Error saving workout:", error);
+            }
+        });
+    </script>
+</body>
 </html>

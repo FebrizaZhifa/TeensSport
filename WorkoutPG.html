@@ -1,154 +1,241 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>TeensSport</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeensSport - Workout</title>
     <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-      rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        rel="stylesheet"
     />
-  </head>
-  <body>
+    <style>
+        body {
+            margin: 0;
+            font-family: "KOULEN", sans-serif;
+            background-color: #333;
+            color: white;
+            background-image: url("Images/HomeBG.png");
+            background-position: center;
+            background-size: cover;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1a1a1a;
+            padding: 10px 20px;
+            border-radius: 50px;
+        }
+
+        .navbar .logo img {
+            height: 40px;
+        }
+
+        .navbar .menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #2d2d2d;
+            border-radius: 50px;
+        }
+
+        .navbar .menu a.active {
+            border-bottom: solid #4caf50;
+        }
+
+        .navbar .user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar .user img {
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .routine-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px;
+            justify-content: center;
+        }
+
+        .routine-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: white;
+            color: black;
+            padding: 16px;
+            width: 250px;
+            text-align: center;
+        }
+
+        .routine-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .routine-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .routine-card li {
+            background-color: #1a1a1a;
+            color: white;
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .routine-card button {
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .routine-card .edit {
+            background-color: #ffa500;
+            color: white;
+        }
+
+        .routine-card .delete {
+            background-color: #d9534f;
+            color: white;
+        }
+
+        .routine-card button:hover {
+            opacity: 0.9;
+        }
+
+        .add-new {
+            margin: 20px auto;
+            display: block;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            text-align: center;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .add-new:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
     <div class="navbar">
-      <div class="logo">
-        <img src="Images/teensport 1.png" alt="TeensSport Logo" />
-      </div>
-      <div class="menu">
-        <a href="Home.html">HOME</a>
-        <a class="active" href="WorkoutPG.html">WORKOUT</a>
-        <a href="TutorialPG.html">TUTORIAL</a>
-      </div>
-      <div class="user">
-        <img
-          alt="User profile picture"
-          height="30"
-          src="https://storage.googleapis.com/a1aa/image/iAdIgMpnUK52EhdRrc4n1bSJ9iUYY77WqjmWSHGInjSRzn9E.jpg"
-          width="30"
-        />
-      </div>
-    </div>
-    <div class="content">
-      <div class="button-container">
-        <a class="button" href = "StartPG.html">New Routine</a>
-        <a ></a>
-
-          </div>
+        <div class="logo">
+            <img src="Images/teensport 1.png" alt="TeensSport Logo" />
         </div>
-      </div>
+        <div class="menu">
+            <a href="Home.html">HOME</a>
+            <a class="active" href="WorkoutPG.html">WORKOUT</a>
+            <a href="TutorialPG.html">TUTORIAL</a>
+        </div>
+        <div class="user">
+            <img
+                alt="User profile picture"
+                height="30"
+                src="https://storage.googleapis.com/a1aa/image/iAdIgMpnUK52EhdRrc4n1bSJ9iUYY77WqjmWSHGInjSRzn9E.jpg"
+                width="30"
+            />
+        </div>
     </div>
-  </body>
-</html>
 
-<style>
-   body {
-    margin: 0;
-    font-family: "KOULEN", sans-serif;
-    background-color: #333;
-    color: white;
-    background-image: url("Images/HomeBG.png");
-    background-position: center;
-    background-size: cover;
-  }
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #1a1a1a;
-    padding: 10px 20px;
-    border-radius: 50px;
-  }
-  .navbar .logo img {
-    height: 40px;
-  }
-  .navbar .menu {
-    display: flex;
-    gap: 20px;
-  }
-  .navbar .menu a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 20px;
-    background-color: #2d2d2d;
-    border-radius: 50px;
-  }
-  .navbar .menu a.active {
-    border-bottom: solid #4caf50;
-  }
-  .navbar .user {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .navbar .user img {
-    height: 30px;
-    border-radius: 50%;
-  }
-  .content {
-    text-align: center;
-    margin-top: 100px;
-  }
-  .button-container {
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-  }
-  .button {
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #4caf50;
-    color: white;
-    text-transform: uppercase;
-    font-weight: bold;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-  }
-  .button:hover {
-    background-color: #45a049;
-  }
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #2d2d2d;
-    width: 200px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    z-index: 1;
-    padding: 10px;
-  }
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  .routine-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .routine-button {
-    color: white;
-    padding: 10px;
-    text-align: center;
-    border: none;
-    background-color: #4caf50;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .routine-button:hover {
-    background-color: #45a049;
-  }
-  .routine-button.delete {
-    background-color: #d9534f;
-  }
-  .routine-button.delete:hover {
-    background-color: #c9302c;
-  }
-  .routine-button.add {
-    background-color: #5bc0de;
-  }
-  .routine-button.add:hover {
-    background-color: #31b0d5;
-  }
-</style>
+    <button class="add-new" onclick="addNewRoutine()">New Routine</button>
+
+    <div class="routine-container" id="routine-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem("authToken");
+            if (!token) {
+                alert("You must be logged in to view your workouts.");
+                window.location.href = "LoginPG.html";
+                return;
+            }
+
+            await fetchWorkouts(token);
+        });
+
+        async function fetchWorkouts(token) {
+            try {
+                const response = await fetch("http://localhost:5000/api/workouts", {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const workouts = await response.json();
+                console.log("Workouts fetched:", workouts);
+                displayWorkouts(workouts);
+            } catch (error) {
+                console.error("Error fetching workouts:", error);
+            }
+        }
+
+        function displayWorkouts(workouts) {
+            const routineContainer = document.getElementById("routine-container");
+            routineContainer.innerHTML = "";
+
+            workouts.forEach((workout) => {
+                const card = document.createElement("div");
+                card.className = "routine-card";
+                card.innerHTML = `
+                    <h3>${workout.name}</h3>
+                    <ul>${workout.exercises.map((ex) => `<li>${ex}</li>`).join("")}</ul>
+                    <button class="edit" onclick="editWorkout('${workout.id}')">Edit</button>
+                    <button class="delete" onclick="deleteWorkout('${workout.id}')">Delete</button>
+                `;
+                routineContainer.appendChild(card);
+            });
+        }
+
+        function editWorkout(id) {
+            localStorage.setItem("workoutId", id);
+            window.location.href = "StartPG.html";
+        }
+
+        async function deleteWorkout(id) {
+            const token = localStorage.getItem("authToken");
+            try {
+                const response = await fetch(`http://localhost:5000/api/workouts/${id}`, {
+                    method: "DELETE",
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to delete workout.");
+                }
+
+                alert("Workout deleted successfully!");
+                fetchWorkouts(token);
+            } catch (error) {
+                console.error("Error deleting workout:", error);
+            }
+        }
+
+        function addNewRoutine() {
+            window.location.href = "StartPG.html";
+        }
+    </script>
+</body>
+</html>
