@@ -19,6 +19,7 @@ exports.registerUser = async (req, res) => {
 };
 
 // Login User
+// Login User
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
 
@@ -31,7 +32,7 @@ exports.loginUser = async (req, res) => {
         }
 
         const token = jwt.sign({ id: user.id }, 'your_jwt_secret', { expiresIn: '1d' });
-        res.json({ token });
+        res.json({ token, username: user.username }); // Tambahkan username ke respons
     } catch (error) {
         res.status(500).json({ error: 'Error saat login' });
     }

@@ -25,12 +25,8 @@
         <a class="active" href="TutorialPG.html"> TUTORIAL </a>
       </div>
       <div class="user">
-        <img
-          alt="User profile picture"
-          height="30"
-          src="https://storage.googleapis.com/a1aa/image/iAdIgMpnUK52EhdRrc4n1bSJ9iUYY77WqjmWSHGInjSRzn9E.jpg"
-          width="30"
-        />
+        <span id="username-display">Hello, User</span>
+        <a href="#" class="logout-button" onclick="logout()">Logout</a>
       </div>
     </div>
   </header>
@@ -360,6 +356,26 @@
       integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          const user = JSON.parse(localStorage.getItem('user'));
+          const usernameDisplay = document.getElementById('username-display');
+
+          if (user && user.username) {
+              usernameDisplay.textContent = `Hello, ${user.username}`;
+          } else {
+              usernameDisplay.textContent = 'Hello, User';
+          }
+      });
+
+      function logout() {
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('user');
+          alert('You have successfully logged out.');
+          window.location.href = 'LoginPG.html';
+      }
+  </script>
   </body>
 </html>
 
@@ -436,4 +452,20 @@
     list-style: none;
     counter-reset: steps;
   }
+
+  .logout-button {
+    color: white;
+    background-color: #d9534f;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 16px; 
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #c9302c;
+}
+
 </style>

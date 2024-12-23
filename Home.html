@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeensSport - Home</title>
-    <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-        rel="stylesheet"
-    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <style>
         body {
             margin: 0;
@@ -53,12 +50,25 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 16px;
+            color: #fff;
         }
 
-        .navbar .user img {
-            height: 30px;
-            border-radius: 50%;
+        .logout-button {
+            color: white;
+            background-color: #d9534f;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 16px; /* Pastikan font-size konsisten */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
+
+        .logout-button:hover {
+            background-color: #c9302c;
+        }
+
 
         .header {
             text-align: center;
@@ -77,7 +87,6 @@
     </style>
 </head>
 <body>
-    <!-- Navbar -->
     <div class="navbar">
         <div class="logo">
             <img src="Images/teensport 1.png" alt="TeensSport Logo" />
@@ -88,19 +97,37 @@
             <a href="TutorialPG.html">TUTORIAL</a>
         </div>
         <div class="user">
-            <img
-                alt="User profile picture"
-                height="30"
-                src="https://storage.googleapis.com/a1aa/image/iAdIgMpnUK52EhdRrc4n1bSJ9iUYY77WqjmWSHGInjSRzn9E.jpg"
-                width="30"
-            />
+            <span id="username-display">Hello, User</span>
+            <a href="#" class="logout-button" onclick="logout()">Logout</a>
         </div>
     </div>
 
-    <!-- Header Content -->
     <div class="header">
         <h1>Welcome Back</h1>
         <h2>Comeback Stronger Champ, Be Better Than Yesterday</h2>
     </div>
+
+    <script>
+        // Load username from localStorage
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const usernameDisplay = document.getElementById('username-display');
+
+            if (user && user.username) {
+                usernameDisplay.textContent = `Hello, ${user.username}`;
+            } else {
+                usernameDisplay.textContent = 'Hello, User';
+            }
+        });
+
+        function logout() {
+            // Hapus data localStorage
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            alert('You have successfully logged out.');
+            window.location.href = 'LoginPG.html';
+        }
+
+    </script>
 </body>
 </html>
