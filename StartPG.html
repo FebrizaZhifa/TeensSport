@@ -42,6 +42,9 @@
             flex-direction: column;
             gap: 10px;
         }
+        .inputbox label {
+            color: white;
+        }
         .inputbox input {
             padding: 10px;
             font-size: 16px;
@@ -115,6 +118,13 @@
         button:hover {
             background-color: #45a049;
         }
+        .back-button {
+            background-color: #d9534f;
+            margin-right: 10px;
+        }
+        .back-button:hover {
+            background-color: #c9302c;
+        }
     </style>
 </head>
 <body>
@@ -125,6 +135,7 @@
             <input id="workoutName" type="text" placeholder="Enter Workout Name" required>
         </div>
         <div class="list">
+            <!-- Checkbox List -->
             <!-- Chest -->
             <div class="form-element">
                 <input type="checkbox" name="Exercise" value="Bench Press" id="Bench Press">
@@ -144,7 +155,7 @@
                     <div class="title">Chest Fly</div>
                 </label>
             </div>
-            <!-- Back Muscles -->
+            <!-- Back -->
             <div class="form-element">
                 <input type="checkbox" name="Exercise" value="Lat Pulldown" id="Lat Pulldown">
                 <label for="Lat Pulldown">
@@ -221,80 +232,99 @@
                 </label>
             </div>
         </div>
+        <button class="back-button" onclick="goBack()">Back</button>
         <button id="submitWorkout">Save Workout</button>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            const workoutId = localStorage.getItem("workoutId");
-            if (workoutId) {
-                document.getElementById("pageTitle").textContent = "Edit Workout";
-                await loadWorkoutDetails(workoutId);
-            } else {
-                document.getElementById("pageTitle").textContent = "Create Workout";
-            }
+    const urlParams = new URLSearchParams(window.location.search);
+    const workoutId = localStorage.getItem("workoutId"); // Ambil workout ID dari localStorage
+    const day = localStorage.getItem("workoutDay");
+
+    if (!day) {
+        alert("No day selected. Please go back and select a day.");
+        return goBack();
+    }
+
+    if (workoutId) {
+        document.getElementById("pageTitle").textContent = "Edit Workout";
+        await loadWorkoutDetails(workoutId); // Panggil detail workout jika ID ada
+    } else {
+        document.getElementById("pageTitle").textContent = `Create Workout for ${day}`;
+    }
+});
+
+async function loadWorkoutDetails(id) {
+    const token = localStorage.getItem("authToken");
+    try {
+        const response = await fetch(`http://localhost:5000/api/workouts/${id}`, {
+            headers: { Authorization: `Bearer ${token}` },
         });
 
-        async function loadWorkoutDetails(id) {
-            const token = localStorage.getItem("authToken");
-            try {
-                const response = await fetch(`http://localhost:5000/api/workouts/${id}`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-
-                if (!response.ok) {
-                    throw new Error("Failed to load workout.");
-                }
-
-                const workout = await response.json();
-                document.getElementById("workoutName").value = workout.name;
-
-                workout.exercises.forEach((exercise) => {
-                    const checkbox = document.getElementById(exercise);
-                    if (checkbox) checkbox.checked = true;
-                });
-            } catch (error) {
-                console.error("Error loading workout details:", error);
-            }
+        if (!response.ok) {
+            throw new Error("Failed to load workout.");
         }
 
-        document.getElementById("submitWorkout").addEventListener("click", async () => {
-            const workoutId = localStorage.getItem("workoutId");
-            const workoutName = document.getElementById("workoutName").value;
-            const selectedExercises = Array.from(document.querySelectorAll("input[type='checkbox']:checked"))
-                .map((checkbox) => checkbox.value);
+        const workout = await response.json();
+        document.getElementById("workoutName").value = workout.name;
 
-            if (!workoutName || selectedExercises.length === 0) {
-                alert("Please fill out the workout name and select at least one exercise.");
-                return;
-            }
-
-            const token = localStorage.getItem("authToken");
-            const endpoint = workoutId
-                ? `http://localhost:5000/api/workouts/${workoutId}`
-                : "http://localhost:5000/api/workouts";
-            const method = workoutId ? "PUT" : "POST";
-
-            try {
-                const response = await fetch(endpoint, {
-                    method,
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}` },
-                    body: JSON.stringify({ name: workoutName, exercises: selectedExercises }),
-                });
-
-                if (!response.ok) {
-                    throw new Error("Failed to save workout.");
-                }
-
-                alert("Workout saved successfully!");
-                localStorage.removeItem("workoutId");
-                window.location.href = "WorkoutPG.html";
-            } catch (error) {
-                console.error("Error saving workout:", error);
-            }
+        workout.exercises.forEach((exercise) => {
+            const checkbox = document.getElementById(exercise);
+            if (checkbox) checkbox.checked = true;
         });
+    } catch (error) {
+        console.error("Error loading workout details:", error);
+    }
+}
+
+document.getElementById("submitWorkout").addEventListener("click", async () => {
+    const workoutName = document.getElementById("workoutName").value;
+    const selectedExercises = Array.from(document.querySelectorAll("input[type='checkbox']:checked"))
+        .map((checkbox) => checkbox.value);
+
+    if (!workoutName || selectedExercises.length === 0) {
+        alert("Please fill out all fields.");
+        return;
+    }
+
+    const day = localStorage.getItem("workoutDay");
+    const workoutId = localStorage.getItem("workoutId"); // Ambil ID workout dari localStorage
+    const token = localStorage.getItem("authToken");
+
+    const endpoint = workoutId
+        ? `http://localhost:5000/api/workouts/${workoutId}` // Gunakan endpoint untuk update
+        : "http://localhost:5000/api/workouts"; // Gunakan endpoint untuk create
+    const method = workoutId ? "PUT" : "POST"; // Gunakan metode yang sesuai
+
+    try {
+        const response = await fetch(endpoint, {
+            method,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ name: workoutName, day, exercises: selectedExercises }),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || "Failed to save workout.");
+        }
+
+        alert(`Workout ${workoutId ? "updated" : "created"} successfully!`);
+        localStorage.removeItem("workoutId"); // Hapus ID workout dari localStorage
+        window.location.href = "WorkoutPG.html";
+    } catch (error) {
+        console.error("Error saving workout:", error);
+        alert("An error occurred. Please try again.");
+    }
+});
+
+
+        function goBack() {
+            window.location.href = "WorkoutPG.html";
+        }
     </script>
 </body>
 </html>

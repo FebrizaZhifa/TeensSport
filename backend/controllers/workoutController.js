@@ -2,23 +2,47 @@ const pool = require('../db');
 
 // Buat Workout Baru
 exports.createWorkout = async (req, res) => {
-    const { name, exercises } = req.body;
+    const { name, exercises, day } = req.body;
 
     try {
-        await pool.query(
-            'INSERT INTO workout (name, exercises, user_id) VALUES (?, ?, ?)',
-            [name, JSON.stringify(exercises), req.userId]
+        // Periksa apakah sudah ada workout untuk hari tersebut
+        const [existingWorkout] = await pool.query(
+            'SELECT * FROM workout WHERE day = ? AND user_id = ?',
+            [day, req.userId]
         );
+
+        if (existingWorkout.length > 0) {
+            return res.status(400).json({ error: 'Workout untuk hari ini sudah ada. Silakan edit atau hapus workout yang ada.' });
+        }
+
+        // Tambahkan workout baru jika belum ada
+        await pool.query(
+            'INSERT INTO workout (name, exercises, day, user_id) VALUES (?, ?, ?, ?)',
+            [name, JSON.stringify(exercises), day, req.userId]
+        );
+
         res.status(201).json({ message: 'Workout berhasil ditambahkan' });
     } catch (error) {
-        res.status(500).json({ error: error });
+        console.error(error);
+        res.status(500).json({ error: 'Error saat menambahkan workout' });
     }
 };
 
+
 // Ambil Semua Workout
 exports.getWorkouts = async (req, res) => {
+    const { day } = req.query; // Ambil filter "day" dari query params jika ada
+
     try {
-        const [rows] = await pool.query('SELECT * FROM workout WHERE user_id = ?', [req.userId]);
+        let query = 'SELECT * FROM workout WHERE user_id = ?';
+        const params = [req.userId];
+
+        if (day) {
+            query += ' AND FIND_IN_SET(?, day)';
+            params.push(day);
+        }
+
+        const [rows] = await pool.query(query, params);
         res.json(rows);
     } catch (error) {
         res.status(500).json({ error: 'Error saat mengambil workout' });
@@ -27,18 +51,29 @@ exports.getWorkouts = async (req, res) => {
 
 // Update Workout
 exports.updateWorkout = async (req, res) => {
-    const { name, exercises } = req.body;
+    const { name, exercises, day } = req.body; // Tambahkan "day" ke dalam request body
+    console.log("Request Body:", req.body); // Logging data request
+    console.log("Params ID:", req.params.id); // Logging parameter ID
+    console.log("User ID:", req.userId); // Logging ID pengguna
 
     try {
-        await pool.query(
-            'UPDATE workout SET name = ?, exercises = ? WHERE id = ? AND user_id = ?',
-            [name, JSON.stringify(exercises), req.params.id, req.userId]
+        const [result] = await pool.query(
+            'UPDATE workout SET name = ?, exercises = ?, day = ? WHERE id = ? AND user_id = ?',
+            [name, JSON.stringify(exercises), day, req.params.id, req.userId]
         );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Workout tidak ditemukan atau tidak dapat diupdate' });
+        }
+
         res.json({ message: 'Workout berhasil diperbarui' });
     } catch (error) {
+        console.error("Error saat memperbarui workout:", error);
         res.status(500).json({ error: 'Error saat memperbarui workout' });
     }
 };
+
+
 
 // Hapus Workout
 exports.deleteWorkout = async (req, res) => {
