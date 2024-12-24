@@ -2,13 +2,25 @@ const pool = require('../db');
 
 // Buat Workout Baru
 exports.createWorkout = async (req, res) => {
-    const { name, exercises, day } = req.body; // Tambahkan "day" ke dalam request body
+    const { name, exercises, day } = req.body;
 
     try {
+        // Periksa apakah sudah ada workout untuk hari tersebut
+        const [existingWorkout] = await pool.query(
+            'SELECT * FROM workout WHERE day = ? AND user_id = ?',
+            [day, req.userId]
+        );
+
+        if (existingWorkout.length > 0) {
+            return res.status(400).json({ error: 'Workout untuk hari ini sudah ada. Silakan edit atau hapus workout yang ada.' });
+        }
+
+        // Tambahkan workout baru jika belum ada
         await pool.query(
             'INSERT INTO workout (name, exercises, day, user_id) VALUES (?, ?, ?, ?)',
-            [name, JSON.stringify(exercises), day, req.userId] // Simpan hari sebagai string (tanpa `.join`)
+            [name, JSON.stringify(exercises), day, req.userId]
         );
+
         res.status(201).json({ message: 'Workout berhasil ditambahkan' });
     } catch (error) {
         console.error(error);
