@@ -42,7 +42,10 @@
             flex-direction: column;
             gap: 10px;
         }
-        .inputbox input {
+        .inputbox label {
+            color: white; /* Mengubah warna teks menjadi putih */
+        }
+        .inputbox input, .inputbox select {
             padding: 10px;
             font-size: 16px;
             border: 2px solid #4caf50;
@@ -115,6 +118,13 @@
         button:hover {
             background-color: #45a049;
         }
+        .back-button {
+            background-color: #d9534f;
+            margin-right: 10px;
+        }
+        .back-button:hover {
+            background-color: #c9302c;
+        }
     </style>
 </head>
 <body>
@@ -124,7 +134,20 @@
             <label for="workoutName">Workout Name</label>
             <input id="workoutName" type="text" placeholder="Enter Workout Name" required>
         </div>
+        <div class="inputbox">
+            <label for="daySelect">Select Day</label>
+            <select id="daySelect">
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select>
+        </div>
         <div class="list">
+            <!-- Checkbox List -->
             <!-- Chest -->
             <div class="form-element">
                 <input type="checkbox" name="Exercise" value="Bench Press" id="Bench Press">
@@ -144,7 +167,7 @@
                     <div class="title">Chest Fly</div>
                 </label>
             </div>
-            <!-- Back Muscles -->
+            <!-- Back -->
             <div class="form-element">
                 <input type="checkbox" name="Exercise" value="Lat Pulldown" id="Lat Pulldown">
                 <label for="Lat Pulldown">
@@ -221,6 +244,7 @@
                 </label>
             </div>
         </div>
+        <button class="back-button" onclick="goBack()">Back</button>
         <button id="submitWorkout">Save Workout</button>
     </div>
 
@@ -248,6 +272,7 @@
 
                 const workout = await response.json();
                 document.getElementById("workoutName").value = workout.name;
+                document.getElementById("daySelect").value = workout.day;
 
                 workout.exercises.forEach((exercise) => {
                     const checkbox = document.getElementById(exercise);
@@ -259,29 +284,25 @@
         }
 
         document.getElementById("submitWorkout").addEventListener("click", async () => {
-            const workoutId = localStorage.getItem("workoutId");
             const workoutName = document.getElementById("workoutName").value;
+            const selectedDay = document.getElementById("daySelect").value;
             const selectedExercises = Array.from(document.querySelectorAll("input[type='checkbox']:checked"))
                 .map((checkbox) => checkbox.value);
 
             if (!workoutName || selectedExercises.length === 0) {
-                alert("Please fill out the workout name and select at least one exercise.");
+                alert("Please fill out the workout name, select a day, and at least one exercise.");
                 return;
             }
 
             const token = localStorage.getItem("authToken");
-            const endpoint = workoutId
-                ? `http://localhost:5000/api/workouts/${workoutId}`
-                : "http://localhost:5000/api/workouts";
-            const method = workoutId ? "PUT" : "POST";
-
             try {
-                const response = await fetch(endpoint, {
-                    method,
+                const response = await fetch("http://localhost:5000/api/workouts", {
+                    method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}` },
-                    body: JSON.stringify({ name: workoutName, exercises: selectedExercises }),
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ name: workoutName, day: selectedDay, exercises: selectedExercises })
                 });
 
                 if (!response.ok) {
@@ -289,12 +310,15 @@
                 }
 
                 alert("Workout saved successfully!");
-                localStorage.removeItem("workoutId");
                 window.location.href = "WorkoutPG.html";
             } catch (error) {
                 console.error("Error saving workout:", error);
             }
         });
+
+        function goBack() {
+            window.location.href = "WorkoutPG.html";
+        }
     </script>
 </body>
 </html>
