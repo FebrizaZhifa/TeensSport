@@ -92,17 +92,20 @@ exports.getWorkoutById = async (req, res) => {
         );
 
         if (rows.length === 0) {
-            return res.status(404).json({ error: 'Workout not found' });
+            return res.status(404).json({ message: 'Workout not found' });
         }
 
+        // Ambil data workout
         const workout = rows[0];
 
-        // Pastikan kolom exercises diparsing sebagai JSON
+        // Parsing exercises jika perlu
         try {
-            workout.exercises = JSON.parse(workout.exercises || '[]');
+            workout.exercises = typeof workout.exercises === 'string'
+                ? JSON.parse(workout.exercises)
+                : workout.exercises; // Pastikan dalam bentuk array
         } catch (error) {
             console.error('Error parsing exercises:', error);
-            workout.exercises = []; // Set default kosong jika parsing gagal
+            return res.status(500).json({ error: 'Failed to parse exercises' });
         }
 
         res.json(workout);
@@ -111,5 +114,6 @@ exports.getWorkoutById = async (req, res) => {
         res.status(500).json({ error: 'Error fetching workout details' });
     }
 };
+
 
 

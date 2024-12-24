@@ -266,28 +266,27 @@
             throw new Error("Failed to load workout.");
         }
 
+        // Ambil data workout dari respons API
         const workout = await response.json();
-
-        // Validasi data yang diterima
-        if (!workout || !workout.exercises || !Array.isArray(workout.exercises)) {
-            throw new Error("Invalid workout data received from API.");
-        }
 
         // Isi nama workout ke input field
         document.getElementById("workoutName").value = workout.name;
 
-        // Centang checkbox berdasarkan daftar exercises
-        workout.exercises.forEach((exercise) => {
-            const checkbox = document.getElementById(exercise);
-            if (checkbox) checkbox.checked = true; // Centang checkbox jika sesuai
-        });
+        // Ceklis checkbox berdasarkan daftar exercises
+        if (Array.isArray(workout.exercises)) {
+            workout.exercises.forEach((exercise) => {
+                const checkbox = document.getElementById(exercise);
+                if (checkbox) checkbox.checked = true; // Centang checkbox jika sesuai
+            });
+        } else {
+            console.warn("Exercises are not in array format.");
+        }
+
     } catch (error) {
         console.error("Error loading workout details:", error);
         alert("Failed to load workout details. Please try again.");
     }
 }
-
-
 
         document.getElementById("submitWorkout").addEventListener("click", async () => {
             const submitButton = event.target;
