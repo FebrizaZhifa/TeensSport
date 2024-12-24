@@ -282,13 +282,29 @@
                 }
 
                 alert("Workout deleted successfully!");
+
                 const activeDay = document.querySelector(".day-button.active").getAttribute("data-day");
-                fetchWorkouts(activeDay);
+
+                // Fetch workouts kembali untuk memeriksa apakah workout masih ada
+                const hasWorkout = await checkExistingWorkout(activeDay);
+
+                const newRoutineButton = document.querySelector(".add-new");
+                if (!hasWorkout) {
+                    newRoutineButton.disabled = false;
+                    newRoutineButton.textContent = "New Routine";
+                    newRoutineButton.onclick = () => {
+                        localStorage.setItem("workoutDay", activeDay);
+                        window.location.href = "StartPG.html";
+                    };
+                }
+
+                fetchWorkouts(activeDay); // Refresh tampilan routines
             } catch (error) {
                 console.error(error);
                 alert("Failed to delete workout.");
             }
         }
+
 
         async function checkExistingWorkout(day) {
             const token = localStorage.getItem("authToken");

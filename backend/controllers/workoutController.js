@@ -2,25 +2,13 @@ const pool = require('../db');
 
 // Buat Workout Baru
 exports.createWorkout = async (req, res) => {
-    const { name, exercises, day } = req.body;
+    const { name, exercises, day } = req.body; // Tambahkan "day" ke dalam request body
 
     try {
-        // Periksa apakah sudah ada workout untuk hari tersebut
-        const [existingWorkout] = await pool.query(
-            'SELECT * FROM workout WHERE day = ? AND user_id = ?',
-            [day, req.userId]
-        );
-
-        if (existingWorkout.length > 0) {
-            return res.status(400).json({ error: 'Workout untuk hari ini sudah ada. Silakan edit atau hapus workout yang ada.' });
-        }
-
-        // Tambahkan workout baru jika belum ada
         await pool.query(
             'INSERT INTO workout (name, exercises, day, user_id) VALUES (?, ?, ?, ?)',
-            [name, JSON.stringify(exercises), day, req.userId]
+            [name, JSON.stringify(exercises), day, req.userId] // Simpan hari sebagai string (tanpa `.join`)
         );
-
         res.status(201).json({ message: 'Workout berhasil ditambahkan' });
     } catch (error) {
         console.error(error);
@@ -52,27 +40,18 @@ exports.getWorkouts = async (req, res) => {
 // Update Workout
 exports.updateWorkout = async (req, res) => {
     const { name, exercises, day } = req.body; // Tambahkan "day" ke dalam request body
-    console.log("Request Body:", req.body); // Logging data request
-    console.log("Params ID:", req.params.id); // Logging parameter ID
-    console.log("User ID:", req.userId); // Logging ID pengguna
 
     try {
-        const [result] = await pool.query(
+        await pool.query(
             'UPDATE workout SET name = ?, exercises = ?, day = ? WHERE id = ? AND user_id = ?',
-            [name, JSON.stringify(exercises), day, req.params.id, req.userId]
+            [name, JSON.stringify(exercises), day, req.params.id, req.userId] // Simpan hari sebagai string
         );
-
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Workout tidak ditemukan atau tidak dapat diupdate' });
-        }
-
         res.json({ message: 'Workout berhasil diperbarui' });
     } catch (error) {
-        console.error("Error saat memperbarui workout:", error);
+        console.error(error);
         res.status(500).json({ error: 'Error saat memperbarui workout' });
     }
 };
-
 
 
 // Hapus Workout
