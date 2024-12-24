@@ -2,35 +2,23 @@ const pool = require('../db');
 
 // Buat Workout Baru
 exports.createWorkout = async (req, res) => {
-    const { name, exercises, day } = req.body; // Tambahkan "day" ke dalam request body
+    const { name, exercises } = req.body;
 
     try {
         await pool.query(
-            'INSERT INTO workout (name, exercises, day, user_id) VALUES (?, ?, ?, ?)',
-            [name, JSON.stringify(exercises), day, req.userId] // Simpan hari sebagai string (tanpa `.join`)
+            'INSERT INTO workout (name, exercises, user_id) VALUES (?, ?, ?)',
+            [name, JSON.stringify(exercises), req.userId]
         );
         res.status(201).json({ message: 'Workout berhasil ditambahkan' });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error saat menambahkan workout' });
+        res.status(500).json({ error: error });
     }
 };
 
-
 // Ambil Semua Workout
 exports.getWorkouts = async (req, res) => {
-    const { day } = req.query; // Ambil filter "day" dari query params jika ada
-
     try {
-        let query = 'SELECT * FROM workout WHERE user_id = ?';
-        const params = [req.userId];
-
-        if (day) {
-            query += ' AND FIND_IN_SET(?, day)';
-            params.push(day);
-        }
-
-        const [rows] = await pool.query(query, params);
+        const [rows] = await pool.query('SELECT * FROM workout WHERE user_id = ?', [req.userId]);
         res.json(rows);
     } catch (error) {
         res.status(500).json({ error: 'Error saat mengambil workout' });
@@ -39,20 +27,18 @@ exports.getWorkouts = async (req, res) => {
 
 // Update Workout
 exports.updateWorkout = async (req, res) => {
-    const { name, exercises, day } = req.body; // Tambahkan "day" ke dalam request body
+    const { name, exercises } = req.body;
 
     try {
         await pool.query(
-            'UPDATE workout SET name = ?, exercises = ?, day = ? WHERE id = ? AND user_id = ?',
-            [name, JSON.stringify(exercises), day, req.params.id, req.userId] // Simpan hari sebagai string
+            'UPDATE workout SET name = ?, exercises = ? WHERE id = ? AND user_id = ?',
+            [name, JSON.stringify(exercises), req.params.id, req.userId]
         );
         res.json({ message: 'Workout berhasil diperbarui' });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: 'Error saat memperbarui workout' });
     }
 };
-
 
 // Hapus Workout
 exports.deleteWorkout = async (req, res) => {

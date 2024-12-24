@@ -6,18 +6,14 @@
     <title>TeensSport - Home</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <style>
-        html, body {
+        body {
             margin: 0;
-            padding: 0;
-            height: 100%; /* Pastikan elemen html dan body memenuhi viewport */
             font-family: "KOULEN", sans-serif;
             background-color: #333;
             color: white;
             background-image: url("Images/HomeBG.png");
             background-position: center;
-            background-size: cover; /* Pastikan gambar mengisi seluruh area tanpa distorsi */
-            background-repeat: no-repeat;
-            background-attachment: fixed; /* Agar gambar tidak bergerak saat scroll */
+            background-size: cover;
         }
 
         .navbar {
@@ -64,7 +60,7 @@
             padding: 8px 15px;
             text-decoration: none;
             border-radius: 50px;
-            font-size: 16px;
+            font-size: 16px; /* Pastikan font-size konsisten */
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
@@ -72,6 +68,7 @@
         .logout-button:hover {
             background-color: #c9302c;
         }
+
 
         .header {
             text-align: center;
@@ -130,6 +127,7 @@
             alert('You have successfully logged out.');
             window.location.href = 'LoginPG.html';
         }
+
     </script>
 </body>
 </html>
