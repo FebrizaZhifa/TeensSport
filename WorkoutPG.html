@@ -352,17 +352,35 @@
         });
 
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener("DOMContentLoaded", () => {
             // Ambil data user dari localStorage
-            const user = JSON.parse(localStorage.getItem('user'));
-            const usernameDisplay = document.getElementById('username-display');
+            const user = JSON.parse(localStorage.getItem("user"));
+            const usernameDisplay = document.getElementById("username-display");
 
             if (user && user.username) {
                 usernameDisplay.textContent = `Hello, ${user.username}`;
             } else {
-                usernameDisplay.textContent = 'Hello, User';
+                usernameDisplay.textContent = "Hello, User";
+            }
+
+            // Menentukan hari saat ini
+            const currentDay = getTodayDay();
+
+            // Temukan tombol hari yang sesuai
+            const todayButton = document.querySelector(`.day-button[data-day="${currentDay}"]`);
+
+            if (todayButton) {
+                todayButton.click(); // Klik otomatis untuk memuat workout hari ini
             }
         });
+
+        // Fungsi untuk mendapatkan nama hari saat ini
+        function getTodayDay() {
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const today = new Date();
+            return days[today.getDay()]; // Mengembalikan nama hari
+        }
+
     </script>
 </body>
 </html>
