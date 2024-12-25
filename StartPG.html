@@ -1,346 +1,450 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create/Edit Workout</title>
     <style>
-        * {
-            margin: 0px;
-            padding: 0px;
-            box-sizing: border-box;
-        }
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            width: 100%;
-            background: url("Images/HomeBG.png");
-            background-position: center;
-            background-size: cover;
-        }
-        .container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 600px;
-            text-align: center;
-        }
-        .container h2 {
-            font-size: 25px;
-            color: #27a101;
-        }
-        .inputbox {
-            margin: 20px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .inputbox label {
-            color: white;
-        }
-        .inputbox input {
-            padding: 10px;
-            font-size: 16px;
-            border: 2px solid #4caf50;
-            border-radius: 5px;
-        }
-        .list {
-            margin-top: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-        }
-        .form-element {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            text-align: center;
-        }
-        .form-element input {
-            display: none;
-        }
-        .form-element label {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-            background-color: #fff;
-            border: 5px solid #858585;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .form-element input:checked + label {
-            border-color: #27a101;
-            background-color: #27a101;
-        }
-        .form-element label:before {
-            content: "✓";
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            top: 8px;
-            left: 8px;
-            background: #27a101;
-            color: #fff;
-            text-align: center;
-            line-height: 18px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 50%;
-            opacity: 0;
-            transform: scale(0.5);
-            transition: all 200ms ease-in-out;
-        }
-        .form-element input:checked + label:before {
-            opacity: 1;
-            transform: scale(1);
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .back-button {
-            background-color: #d9534f;
-            margin-right: 10px;
-        }
-        .back-button:hover {
-            background-color: #c9302c;
-        }
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        width: 100%;
+        background: url("Images/TSBG.png");
+        background-position: center;
+        background-size: cover;
+      }
+      .container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 600px;
+        text-align: center;
+      }
+      .container h2 {
+        font-size: 25px;
+        color: #27a101;
+      }
+      .inputbox {
+        margin: 20px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .inputbox label {
+        color: white;
+      }
+      .inputbox input {
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #4caf50;
+        border-radius: 5px;
+      }
+      .list {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+      }
+      .form-element {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        text-align: center;
+      }
+      .form-element input {
+        display: none;
+      }
+      .form-element label {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        background-color: #fff;
+        border: 5px solid #858585;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .form-element input:checked + label {
+        border-color: #27a101;
+        background-color: #27a101;
+      }
+      .form-element label:before {
+        content: "✓";
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        top: 8px;
+        left: 8px;
+        background: #27a101;
+        color: #fff;
+        text-align: center;
+        line-height: 18px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 50%;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: all 200ms ease-in-out;
+      }
+      .form-element input:checked + label:before {
+        opacity: 1;
+        transform: scale(1);
+      }
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .back-button {
+        background-color: #d9534f;
+        margin-right: 10px;
+      }
+      .back-button:hover {
+        background-color: #c9302c;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h2 id="pageTitle">Create/Edit Workout</h2>
-        <div class="inputbox">
-            <label for="workoutName">Workout Name</label>
-            <input id="workoutName" type="text" placeholder="Enter Workout Name" required>
+      <h2 id="pageTitle">Create/Edit Workout</h2>
+      <div class="inputbox">
+        <label for="workoutName">Workout Name</label>
+        <input
+          id="workoutName"
+          type="text"
+          placeholder="Enter Workout Name"
+          required
+        />
+      </div>
+      <div class="list">
+        <!-- Checkbox List -->
+        <!-- Chest -->
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Bench Press"
+            id="Bench Press"
+          />
+          <label for="Bench Press">
+            <div class="icon">
+              <img
+                src="https://img.icons8.com/ios-filled/50/chest.png"
+                alt="Bench Press"
+                width="30"
+              />
+            </div>
+            <div class="title">Bench Press</div>
+          </label>
         </div>
-        <div class="list">
-            <!-- Checkbox List -->
-            <!-- Chest -->
-            <div class="form-element">
-                <input type="checkbox" name="Exercise" value="Bench Press" id="Bench Press">
-                <label for="Bench Press">
-                    <div class="icon">
-                        <img src="https://img.icons8.com/ios-filled/50/chest.png" alt="Bench Press" width="30">
-                    </div>
-                    <div class="title">Bench Press</div>
-                </label>
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Chest Fly"
+            id="Chest Fly"
+          />
+          <label for="Chest Fly">
+            <div class="icon">
+              <img
+                src="https://img.icons8.com/ios-filled/50/chest.png"
+                alt="Chest Fly"
+                width="30"
+              />
             </div>
-            <div class="form-element">
-                <input type="checkbox" name="Exercise" value="Chest Fly" id="Chest Fly">
-                <label for="Chest Fly">
-                    <div class="icon">
-                        <img src="https://img.icons8.com/ios-filled/50/chest.png" alt="Chest Fly" width="30">
-                    </div>
-                    <div class="title">Chest Fly</div>
-                </label>
-            </div>
-            <!-- Back -->
-            <div class="form-element">
-                <input type="checkbox" name="Exercise" value="Lat Pulldown" id="Lat Pulldown">
-                <label for="Lat Pulldown">
-                    <div class="icon">
-                        <img src="https://img.icons8.com/ios-filled/50/back-muscles.png" alt="Lat Pulldown" width="30">
-                    </div>
-                    <div class="title">Lat Pulldown</div>
-                </label>
-            </div>
-            <div class="form-element">
-                <input type="checkbox" name="Exercise" value="Cable Row" id="Cable Row">
-                <label for="Cable Row">
-                    <div class="icon">
-                        <img src="https://img.icons8.com/ios-filled/50/back-muscles.png" alt="Cable Row" width="30">
-                    </div>
-                    <div class="title">Cable Row</div>
-                </label>
-            </div>
-            <!-- Biceps -->
-            <div class="form-element">
-                <input type="checkbox" name="Exercise" value="Biceps Curl" id="Biceps Curl">
-                <label for="Biceps Curl">
-                    <div class="icon">
-                        <img src="https://img.icons8.com/ios-filled/50/biceps.png" alt="Biceps Curl" width="30">
-                    </div>
-                    <div class="title">Biceps Curl</div>
-                </label>
-            </div>
-            <div class="form-element">
-                <input type="checkbox" name="Exercise" value="Hammer Curl" id="Hammer Curl">
-                <label for="Hammer Curl">
-                    <div class="icon">
-                        <img src="https://img.icons8.com/ios-filled/50/biceps.png" alt="Hammer Curl" width="30">
-                    </div>
-                    <div class="title">Hammer Curl</div>
-                </label>
-            </div>
-            <!-- Triceps -->
-            <div class="form-element">
-                <input type="checkbox" name="Exercise" value="Triceps Push" id="Triceps Push">
-                <label for="Triceps Push">
-                    <div class="icon">
-                        <img src="https://img.icons8.com/ios-filled/50/triceps.png" alt="Triceps Push" width="30">
-                    </div>
-                    <div class="title">Triceps Push</div>
-                </label>
-            </div>
-            <div class="form-element">
-                <input type="checkbox" name="Exercise" value="Skullcrusher" id="Skullcrusher">
-                <label for="Skullcrusher">
-                    <div class="icon">
-                        <img src="https://img.icons8.com/ios-filled/50/triceps.png" alt="Skullcrusher" width="30">
-                    </div>
-                    <div class="title">Skullcrusher</div>
-                </label>
-            </div>
-            <!-- Shoulders -->
-            <div class="form-element">
-                <input type="checkbox" name="Exercise" value="Lateral Raise" id="Lateral Raise">
-                <label for="Lateral Raise">
-                    <div class="icon">
-                        <img src="https://img.icons8.com/ios-filled/50/shoulders.png" alt="Lateral Raise" width="30">
-                    </div>
-                    <div class="title">Lateral Raise</div>
-                </label>
-            </div>
-            <div class="form-element">
-                <input type="checkbox" name="Exercise" value="Front Raise" id="Front Raise">
-                <label for="Front Raise">
-                    <div class="icon">
-                        <img src="https://img.icons8.com/ios-filled/50/shoulders.png" alt="Front Raise" width="30">
-                    </div>
-                    <div class="title">Front Raise</div>
-                </label>
-            </div>
+            <div class="title">Chest Fly</div>
+          </label>
         </div>
-        <button class="back-button" onclick="goBack()">Back</button>
-        <button id="submitWorkout">Save Workout</button>
+        <!-- Back -->
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Lat Pulldown"
+            id="Lat Pulldown"
+          />
+          <label for="Lat Pulldown">
+            <div class="icon">
+              <img
+                src="https://img.icons8.com/ios-filled/50/back-muscles.png"
+                alt="Lat Pulldown"
+                width="30"
+              />
+            </div>
+            <div class="title">Lat Pulldown</div>
+          </label>
+        </div>
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Cable Row"
+            id="Cable Row"
+          />
+          <label for="Cable Row">
+            <div class="icon">
+              <img
+                src="https://img.icons8.com/ios-filled/50/back-muscles.png"
+                alt="Cable Row"
+                width="30"
+              />
+            </div>
+            <div class="title">Cable Row</div>
+          </label>
+        </div>
+        <!-- Biceps -->
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Biceps Curl"
+            id="Biceps Curl"
+          />
+          <label for="Biceps Curl">
+            <div class="icon">
+              <img
+                src="https://img.icons8.com/ios-filled/50/biceps.png"
+                alt="Biceps Curl"
+                width="30"
+              />
+            </div>
+            <div class="title">Biceps Curl</div>
+          </label>
+        </div>
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Hammer Curl"
+            id="Hammer Curl"
+          />
+          <label for="Hammer Curl">
+            <div class="icon">
+              <img
+                src="https://img.icons8.com/ios-filled/50/biceps.png"
+                alt="Hammer Curl"
+                width="30"
+              />
+            </div>
+            <div class="title">Hammer Curl</div>
+          </label>
+        </div>
+        <!-- Triceps -->
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Triceps Push"
+            id="Triceps Push"
+          />
+          <label for="Triceps Push">
+            <div class="icon">
+              <img
+                src="https://img.icons8.com/ios-filled/50/triceps.png"
+                alt="Triceps Push"
+                width="30"
+              />
+            </div>
+            <div class="title">Triceps Push</div>
+          </label>
+        </div>
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Skullcrusher"
+            id="Skullcrusher"
+          />
+          <label for="Skullcrusher">
+            <div class="icon">
+              <img
+                src="https://img.icons8.com/ios-filled/50/triceps.png"
+                alt="Skullcrusher"
+                width="30"
+              />
+            </div>
+            <div class="title">Skullcrusher</div>
+          </label>
+        </div>
+        <!-- Shoulders -->
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Lateral Raise"
+            id="Lateral Raise"
+          />
+          <label for="Lateral Raise">
+            <div class="icon">
+              <img
+                src="https://img.icons8.com/ios-filled/50/shoulders.png"
+                alt="Lateral Raise"
+                width="30"
+              />
+            </div>
+            <div class="title">Lateral Raise</div>
+          </label>
+        </div>
+        <div class="form-element">
+          <input
+            type="checkbox"
+            name="Exercise"
+            value="Front Raise"
+            id="Front Raise"
+          />
+          <label for="Front Raise">
+            <div class="icon">
+              <img
+                src="https://img.icons8.com/ios-filled/50/shoulders.png"
+                alt="Front Raise"
+                width="30"
+              />
+            </div>
+            <div class="title">Front Raise</div>
+          </label>
+        </div>
+      </div>
+      <button class="back-button" onclick="goBack()">Back</button>
+      <button id="submitWorkout">Save Workout</button>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-            const workoutId = localStorage.getItem("workoutId"); // Ambil workout ID dari localStorage
-            const day = localStorage.getItem("workoutDay");
+      document.addEventListener("DOMContentLoaded", async () => {
+        const workoutId = localStorage.getItem("workoutId"); // Ambil workout ID dari localStorage
+        const day = localStorage.getItem("workoutDay");
 
-            if (!day) {
-                alert("No day selected. Please go back and select a day.");
-                return goBack();
-            }
-
-            if (workoutId) {
-                document.getElementById("pageTitle").textContent = "Edit Workout";
-                await loadWorkoutDetails(workoutId); // Panggil detail workout jika ID ada
-            } else {
-                document.getElementById("pageTitle").textContent = `Create Workout for ${day}`;
-            }
-        });
-
-
-        async function loadWorkoutDetails(id) {
-    const token = localStorage.getItem("authToken");
-    try {
-        const response = await fetch(`http://localhost:5000/api/workouts/${id}`, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to load workout.");
+        if (!day) {
+          alert("No day selected. Please go back and select a day.");
+          return goBack();
         }
 
-        // Ambil data workout dari respons API
-        const workout = await response.json();
-
-        // Isi nama workout ke input field
-        document.getElementById("workoutName").value = workout.name;
-
-        // Ceklis checkbox berdasarkan daftar exercises
-        if (Array.isArray(workout.exercises)) {
-            workout.exercises.forEach((exercise) => {
-                const checkbox = document.getElementById(exercise);
-                if (checkbox) checkbox.checked = true; // Centang checkbox jika sesuai
-            });
+        if (workoutId) {
+          document.getElementById("pageTitle").textContent = "Edit Workout";
+          await loadWorkoutDetails(workoutId); // Panggil detail workout jika ID ada
         } else {
-            console.warn("Exercises are not in array format.");
+          document.getElementById(
+            "pageTitle"
+          ).textContent = `Create Workout for ${day}`;
         }
+      });
 
-    } catch (error) {
-        console.error("Error loading workout details:", error);
-        alert("Failed to load workout details. Please try again.");
-    }
-}
+      async function loadWorkoutDetails(id) {
+        const token = localStorage.getItem("authToken");
+        try {
+          const response = await fetch(
+            `http://localhost:5000/api/workouts/${id}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
 
-        document.getElementById("submitWorkout").addEventListener("click", async () => {
-            const submitButton = event.target;
+          if (!response.ok) {
+            throw new Error("Failed to load workout.");
+          }
 
-            // Disable button untuk mencegah multiple submissions
-            submitButton.disabled = true;
+          // Ambil data workout dari respons API
+          const workout = await response.json();
 
-            const workoutName = document.getElementById("workoutName").value;
-            const selectedExercises = Array.from(document.querySelectorAll("input[type='checkbox']:checked"))
-                .map((checkbox) => checkbox.value);
+          // Isi nama workout ke input field
+          document.getElementById("workoutName").value = workout.name;
 
-            if (!workoutName || selectedExercises.length === 0) {
-                alert("Please fill out all fields.");
-                submitButton.disabled = false; // Re-enable button
-                return;
+          // Ceklis checkbox berdasarkan daftar exercises
+          if (Array.isArray(workout.exercises)) {
+            workout.exercises.forEach((exercise) => {
+              const checkbox = document.getElementById(exercise);
+              if (checkbox) checkbox.checked = true; // Centang checkbox jika sesuai
+            });
+          } else {
+            console.warn("Exercises are not in array format.");
+          }
+        } catch (error) {
+          console.error("Error loading workout details:", error);
+          alert("Failed to load workout details. Please try again.");
+        }
+      }
+
+      document
+        .getElementById("submitWorkout")
+        .addEventListener("click", async () => {
+          const submitButton = event.target;
+
+          // Disable button untuk mencegah multiple submissions
+          submitButton.disabled = true;
+
+          const workoutName = document.getElementById("workoutName").value;
+          const selectedExercises = Array.from(
+            document.querySelectorAll("input[type='checkbox']:checked")
+          ).map((checkbox) => checkbox.value);
+
+          if (!workoutName || selectedExercises.length === 0) {
+            alert("Please fill out all fields.");
+            submitButton.disabled = false; // Re-enable button
+            return;
+          }
+
+          const day = localStorage.getItem("workoutDay");
+          const workoutId = localStorage.getItem("workoutId"); // Ambil ID workout dari localStorage
+          const token = localStorage.getItem("authToken");
+
+          const endpoint = workoutId
+            ? `http://localhost:5000/api/workouts/${workoutId}` // Gunakan endpoint untuk update
+            : "http://localhost:5000/api/workouts"; // Gunakan endpoint untuk create
+          const method = workoutId ? "PUT" : "POST"; // Gunakan metode yang sesuai
+
+          try {
+            const response = await fetch(endpoint, {
+              method,
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                name: workoutName,
+                day,
+                exercises: selectedExercises,
+              }),
+            });
+
+            if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.error || "Failed to save workout.");
             }
 
-            const day = localStorage.getItem("workoutDay");
-            const workoutId = localStorage.getItem("workoutId"); // Ambil ID workout dari localStorage
-            const token = localStorage.getItem("authToken");
-
-            const endpoint = workoutId
-                ? `http://localhost:5000/api/workouts/${workoutId}` // Gunakan endpoint untuk update
-                : "http://localhost:5000/api/workouts"; // Gunakan endpoint untuk create
-            const method = workoutId ? "PUT" : "POST"; // Gunakan metode yang sesuai
-
-            try {
-                const response = await fetch(endpoint, {
-                    method,
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({ name: workoutName, day, exercises: selectedExercises }),
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || "Failed to save workout.");
-                }
-
-                alert(`Workout ${workoutId ? "updated" : "created"} successfully!`);
-                localStorage.removeItem("workoutId"); // Hapus ID workout dari localStorage
-                window.location.href = "WorkoutPG.html";
-            } catch (error) {
-                console.error("Error saving workout:", error);
-                alert("An error occurred. Please try again.");
-            }
+            alert(`Workout ${workoutId ? "updated" : "created"} successfully!`);
+            localStorage.removeItem("workoutId"); // Hapus ID workout dari localStorage
+            window.location.href = "WorkoutPG.html";
+          } catch (error) {
+            console.error("Error saving workout:", error);
+            alert("An error occurred. Please try again.");
+          }
         });
 
-
-        function goBack() {
-            window.location.href = "WorkoutPG.html";
-        }
+      function goBack() {
+        window.location.href = "WorkoutPG.html";
+      }
     </script>
-</body>
+  </body>
 </html>

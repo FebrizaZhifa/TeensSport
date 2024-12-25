@@ -1,386 +1,412 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TeensSport - Workout</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: "KOULEN", sans-serif;
-            background-color: #333;
-            color: white;
-            background-image: url("Images/HomeBG.png");
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
+      html,
+      body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: "KOULEN", sans-serif;
+    background-color: #333;
+    color: white;
+    background-image: url("Images/TSBG.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1a1a1a;
+      padding: 10px 20px;
+      border-radius: 50px;
+    }
+    .navbar .logo img {
+      height: 50px;
+    }
+    .navbar .menu {
+      display: flex;
+      gap: 20px;
+    }
+    .navbar .menu a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      background-color: #2d2d2d;
+      border-radius: 50px;
+    }
+    .navbar .menu a.active {
+      border-bottom: solid #4caf50;
+    }
+    .navbar .user {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .navbar .user img {
+      height: 30px;
+      border-radius: 50%;
+    }
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #1a1a1a;
-            padding: 10px 20px;
-            border-radius: 50px;
-        }
+      .logout-button {
+        color: white;
+        background-color: #d9534f;
+        padding: 8px 15px;
+        text-decoration: none;
+        border-radius: 50px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
 
-        .navbar .logo img {
-            height: 40px;
-        }
+      .logout-button:hover {
+        background-color: #c9302c;
+      }
 
-        .navbar .menu {
-            display: flex;
-            gap: 20px;
-        }
+      .day-filter {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px auto;
+      }
 
-        .navbar .menu a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            background-color: #2d2d2d;
-            border-radius: 50px;
-        }
+      .day-button {
+        padding: 10px 20px;
+        background-color: #1a1a1a;
+        color: white;
+        border: 2px solid #4caf50;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+        width: 120px; /* Lebar tetap untuk button */
+        text-align: center;
+      }
 
-        .navbar .menu a.active {
-            border-bottom: solid #4caf50;
-        }
+      .day-button.active {
+        background-color: #4caf50;
+        color: white;
+      }
 
-        .navbar .user {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 16px;
-            color: #fff;
-        }
+      .day-button:hover {
+        background-color: #45a049;
+        transform: scale(1.05); /* Memberikan efek hover */
+      }
 
-        .logout-button {
-            color: white;
-            background-color: #d9534f;
-            padding: 8px 15px;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+      .routine-container {
+        margin-top: 20px;
+        text-align: center;
+      }
 
-        .logout-button:hover {
-            background-color: #c9302c;
-        }
+      .routine-card {
+        margin: 10px auto;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: white;
+        color: black;
+        padding: 16px;
+        text-align: left;
+      }
 
-        .day-filter {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px auto;
-        }
+      .routine-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+      }
 
-        .day-button {
-            padding: 10px 20px;
-            background-color: #1a1a1a;
-            color: white;
-            border: 2px solid #4caf50;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            width: 120px; /* Lebar tetap untuk button */
-            text-align: center;
-        }
+      .routine-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
 
-        .day-button.active {
-            background-color: #4caf50;
-            color: white;
-        }
+      .routine-card li {
+        background-color: #1a1a1a;
+        color: white;
+        margin: 5px 0;
+        padding: 8px;
+        border-radius: 4px;
+      }
 
-        .day-button:hover {
-            background-color: #45a049;
-            transform: scale(1.05); /* Memberikan efek hover */
-        }
+      .routine-card button {
+        margin-top: 10px;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
 
-        .routine-container {
-            margin-top: 20px;
-            text-align: center;
-        }
+      .routine-card .edit {
+        background-color: #ffa500;
+        color: white;
+      }
 
-        .routine-card {
-            margin: 10px auto;
-            width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: white;
-            color: black;
-            padding: 16px;
-            text-align: left;
-        }
+      .routine-card .delete {
+        background-color: #d9534f;
+        color: white;
+      }
 
-        .routine-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
+      .routine-card button:hover {
+        opacity: 0.9;
+      }
 
-        .routine-card ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+      .add-new {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-size: 16px;
+        text-align: center;
+        cursor: pointer;
+        width: 150px; /* Ukuran tombol tambah baru */
+      }
 
-        .routine-card li {
-            background-color: #1a1a1a;
-            color: white;
-            margin: 5px 0;
-            padding: 8px;
-            border-radius: 4px;
-        }
-
-        .routine-card button {
-            margin-top: 10px;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .routine-card .edit {
-            background-color: #ffa500;
-            color: white;
-        }
-
-        .routine-card .delete {
-            background-color: #d9534f;
-            color: white;
-        }
-
-        .routine-card button:hover {
-            opacity: 0.9;
-        }
-
-        .add-new {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #4caf50;
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 16px;
-            text-align: center;
-            cursor: pointer;
-            width: 150px; /* Ukuran tombol tambah baru */
-        }
-
-        .add-new:hover {
-            background-color: #45a049;
-        }
+      .add-new:hover {
+        background-color: #45a049;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="navbar">
-        <div class="logo">
-            <img src="Images/teensport 1.png" alt="TeensSport Logo" />
-        </div>
-        <div class="menu">
-            <a href="Home.html">HOME</a>
-            <a class="active" href="WorkoutPG.html">WORKOUT</a>
-            <a href="TutorialPG.html">TUTORIAL</a>
-        </div>
-        <div class="user">
-            <span id="username-display">Hello, User</span>
-            <a href="#" class="logout-button" onclick="logout()">Logout</a>
-        </div>
+      <div class="logo">
+        <img src="Images/teensport 1.png" alt="TeensSport Logo" />
+      </div>
+      <div class="menu">
+        <a href="Home.html">HOME</a>
+        <a class="active" href="WorkoutPG.html">WORKOUT</a>
+        <a href="TutorialPG.html">TUTORIAL</a>
+      </div>
+      <div class="user">
+        <span id="username-display">Hello, User</span>
+        <a href="#" class="logout-button" onclick="logout()">Logout</a>
+      </div>
     </div>
 
     <div class="day-filter" id="day-filter">
-        <button class="day-button" data-day="Monday">Monday</button>
-        <button class="day-button" data-day="Tuesday">Tuesday</button>
-        <button class="day-button" data-day="Wednesday">Wednesday</button>
-        <button class="day-button" data-day="Thursday">Thursday</button>
-        <button class="day-button" data-day="Friday">Friday</button>
-        <button class="day-button" data-day="Saturday">Saturday</button>
-        <button class="day-button" data-day="Sunday">Sunday</button>
+      <button class="day-button" data-day="Monday">Monday</button>
+      <button class="day-button" data-day="Tuesday">Tuesday</button>
+      <button class="day-button" data-day="Wednesday">Wednesday</button>
+      <button class="day-button" data-day="Thursday">Thursday</button>
+      <button class="day-button" data-day="Friday">Friday</button>
+      <button class="day-button" data-day="Saturday">Saturday</button>
+      <button class="day-button" data-day="Sunday">Sunday</button>
     </div>
 
     <a class="add-new" href="StartPG.html">New Routine</a>
 
     <div class="routine-container" id="routine-container">
-        <p>Select a day to see the workout routines.</p>
+      <p>Select a day to see the workout routines.</p>
     </div>
 
     <script>
-        const dayButtons = document.querySelectorAll(".day-button");
-        const routineContainer = document.getElementById("routine-container");
+      const dayButtons = document.querySelectorAll(".day-button");
+      const routineContainer = document.getElementById("routine-container");
 
-        dayButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-                dayButtons.forEach((btn) => btn.classList.remove("active"));
-                button.classList.add("active");
+      dayButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          dayButtons.forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
 
-                const day = button.getAttribute("data-day");
-                fetchWorkouts(day);
-            });
+          const day = button.getAttribute("data-day");
+          fetchWorkouts(day);
         });
+      });
 
-        async function fetchWorkouts(day) {
-            const token = localStorage.getItem("authToken");
-            try {
-                const response = await fetch(`http://localhost:5000/api/workouts?day=${day}`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-
-                if (!response.ok) {
-                    throw new Error("Failed to fetch workouts");
-                }
-
-                const workouts = await response.json();
-                displayWorkouts(workouts);
-            } catch (error) {
-                console.error(error);
-                routineContainer.innerHTML = "<p>Failed to load workouts. Please try again later.</p>";
+      async function fetchWorkouts(day) {
+        const token = localStorage.getItem("authToken");
+        try {
+          const response = await fetch(
+            `http://localhost:5000/api/workouts?day=${day}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
             }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch workouts");
+          }
+
+          const workouts = await response.json();
+          displayWorkouts(workouts);
+        } catch (error) {
+          console.error(error);
+          routineContainer.innerHTML =
+            "<p>Failed to load workouts. Please try again later.</p>";
+        }
+      }
+
+      function displayWorkouts(workouts) {
+        routineContainer.innerHTML = "";
+
+        if (workouts.length === 0) {
+          routineContainer.innerHTML =
+            "<p>No workouts available for the selected day.</p>";
+          return;
         }
 
-        function displayWorkouts(workouts) {
-            routineContainer.innerHTML = "";
-
-            if (workouts.length === 0) {
-                routineContainer.innerHTML = "<p>No workouts available for the selected day.</p>";
-                return;
-            }
-
-            workouts.forEach((workout) => {
-                const card = document.createElement("div");
-                card.className = "routine-card";
-                card.innerHTML = `
+        workouts.forEach((workout) => {
+          const card = document.createElement("div");
+          card.className = "routine-card";
+          card.innerHTML = `
                     <h3>${workout.name}</h3>
-                    <ul>${workout.exercises.map((ex) => `<li>${ex}</li>`).join("")}</ul>
-                    <button class="edit" onclick="editWorkout('${workout.id}')">Edit</button>
-                    <button class="delete" onclick="deleteWorkout('${workout.id}')">Delete</button>
+                    <ul>${workout.exercises
+                      .map((ex) => `<li>${ex}</li>`)
+                      .join("")}</ul>
+                    <button class="edit" onclick="editWorkout('${
+                      workout.id
+                    }')">Edit</button>
+                    <button class="delete" onclick="deleteWorkout('${
+                      workout.id
+                    }')">Delete</button>
                 `;
-                routineContainer.appendChild(card);
-            });
-        }
-
-        function editWorkout(id) {
-            localStorage.setItem("workoutId", id);
-            window.location.href = "StartPG.html";
-        }
-
-        async function deleteWorkout(id) {
-            const token = localStorage.getItem("authToken");
-            try {
-                const response = await fetch(`http://localhost:5000/api/workouts/${id}`, {
-                    method: "DELETE",
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-
-                if (!response.ok) {
-                    throw new Error("Failed to delete workout.");
-                }
-
-                alert("Workout deleted successfully!");
-
-                const activeDay = document.querySelector(".day-button.active").getAttribute("data-day");
-
-                // Fetch workouts kembali untuk memeriksa apakah workout masih ada
-                const hasWorkout = await checkExistingWorkout(activeDay);
-
-                const newRoutineButton = document.querySelector(".add-new");
-                if (!hasWorkout) {
-                    newRoutineButton.disabled = false;
-                    newRoutineButton.textContent = "New Routine";
-                    newRoutineButton.onclick = () => {
-                        localStorage.setItem("workoutDay", activeDay);
-                        window.location.href = "StartPG.html";
-                    };
-                }
-
-                fetchWorkouts(activeDay); // Refresh tampilan routines
-            } catch (error) {
-                console.error(error);
-                alert("Failed to delete workout.");
-            }
-        }
-
-        async function checkExistingWorkout(day) {
-            const token = localStorage.getItem("authToken");
-            try {
-                const response = await fetch(`http://localhost:5000/api/workouts?day=${day}`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-
-                const workouts = await response.json();
-                if (workouts.length > 0) {
-                    const workout = workouts[0]; // Ambil workout pertama
-                    localStorage.setItem("workoutId", workout.id); // Simpan ID workout
-                    return true;
-                } else {
-                    localStorage.removeItem("workoutId"); // Hapus jika tidak ada workout
-                    return false;
-                }
-            } catch (error) {
-                console.error("Error checking existing workout:", error);
-                return false;
-            }
-        }
-
-
-        document.querySelectorAll(".day-button").forEach((button) => {
-            button.addEventListener("click", async (e) => {
-                const day = e.target.getAttribute("data-day");
-
-                const hasWorkout = await checkExistingWorkout(day);
-                const newRoutineButton = document.querySelector(".add-new");
-
-                if (hasWorkout) {
-                    newRoutineButton.textContent = "Edit Workout";
-                    newRoutineButton.onclick = () => {
-                        localStorage.setItem("workoutDay", day);
-                        window.location.href = "StartPG.html"; // Arahkan ke mode Edit
-                    };
-                } else {
-                    newRoutineButton.textContent = "New Routine";
-                    newRoutineButton.onclick = () => {
-                        localStorage.setItem("workoutDay", day);
-                        window.location.href = "StartPG.html"; // Arahkan ke mode Create
-                    };
-                }
-            });
+          routineContainer.appendChild(card);
         });
+      }
 
+      function editWorkout(id) {
+        localStorage.setItem("workoutId", id);
+        window.location.href = "StartPG.html";
+      }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            // Ambil data user dari localStorage
-            const user = JSON.parse(localStorage.getItem("user"));
-            const usernameDisplay = document.getElementById("username-display");
-
-            if (user && user.username) {
-                usernameDisplay.textContent = `Hello, ${user.username}`;
-            } else {
-                usernameDisplay.textContent = "Hello, User";
+      async function deleteWorkout(id) {
+        const token = localStorage.getItem("authToken");
+        try {
+          const response = await fetch(
+            `http://localhost:5000/api/workouts/${id}`,
+            {
+              method: "DELETE",
+              headers: { Authorization: `Bearer ${token}` },
             }
+          );
 
-            // Menentukan hari saat ini
-            const currentDay = getTodayDay();
+          if (!response.ok) {
+            throw new Error("Failed to delete workout.");
+          }
 
-            // Temukan tombol hari yang sesuai
-            const todayButton = document.querySelector(`.day-button[data-day="${currentDay}"]`);
+          alert("Workout deleted successfully!");
 
-            if (todayButton) {
-                todayButton.click(); // Klik otomatis untuk memuat workout hari ini
+          const activeDay = document
+            .querySelector(".day-button.active")
+            .getAttribute("data-day");
+
+          // Fetch workouts kembali untuk memeriksa apakah workout masih ada
+          const hasWorkout = await checkExistingWorkout(activeDay);
+
+          const newRoutineButton = document.querySelector(".add-new");
+          if (!hasWorkout) {
+            newRoutineButton.disabled = false;
+            newRoutineButton.textContent = "New Routine";
+            newRoutineButton.onclick = () => {
+              localStorage.setItem("workoutDay", activeDay);
+              window.location.href = "StartPG.html";
+            };
+          }
+
+          fetchWorkouts(activeDay); // Refresh tampilan routines
+        } catch (error) {
+          console.error(error);
+          alert("Failed to delete workout.");
+        }
+      }
+
+      async function checkExistingWorkout(day) {
+        const token = localStorage.getItem("authToken");
+        try {
+          const response = await fetch(
+            `http://localhost:5000/api/workouts?day=${day}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
             }
+          );
+
+          const workouts = await response.json();
+          if (workouts.length > 0) {
+            const workout = workouts[0]; // Ambil workout pertama
+            localStorage.setItem("workoutId", workout.id); // Simpan ID workout
+            return true;
+          } else {
+            localStorage.removeItem("workoutId"); // Hapus jika tidak ada workout
+            return false;
+          }
+        } catch (error) {
+          console.error("Error checking existing workout:", error);
+          return false;
+        }
+      }
+
+      document.querySelectorAll(".day-button").forEach((button) => {
+        button.addEventListener("click", async (e) => {
+          const day = e.target.getAttribute("data-day");
+
+          const hasWorkout = await checkExistingWorkout(day);
+          const newRoutineButton = document.querySelector(".add-new");
+
+          if (hasWorkout) {
+            newRoutineButton.textContent = "Edit Workout";
+            newRoutineButton.onclick = () => {
+              localStorage.setItem("workoutDay", day);
+              window.location.href = "StartPG.html"; // Arahkan ke mode Edit
+            };
+          } else {
+            newRoutineButton.textContent = "New Routine";
+            newRoutineButton.onclick = () => {
+              localStorage.setItem("workoutDay", day);
+              window.location.href = "StartPG.html"; // Arahkan ke mode Create
+            };
+          }
         });
+      });
 
-        // Fungsi untuk mendapatkan nama hari saat ini
-        function getTodayDay() {
-            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            const today = new Date();
-            return days[today.getDay()]; // Mengembalikan nama hari
+      document.addEventListener("DOMContentLoaded", () => {
+        // Ambil data user dari localStorage
+        const user = JSON.parse(localStorage.getItem("user"));
+        const usernameDisplay = document.getElementById("username-display");
+
+        if (user && user.username) {
+          usernameDisplay.textContent = `Hello, ${user.username}`;
+        } else {
+          usernameDisplay.textContent = "Hello, User";
         }
 
+        // Menentukan hari saat ini
+        const currentDay = getTodayDay();
+
+        // Temukan tombol hari yang sesuai
+        const todayButton = document.querySelector(
+          `.day-button[data-day="${currentDay}"]`
+        );
+
+        if (todayButton) {
+          todayButton.click(); // Klik otomatis untuk memuat workout hari ini
+        }
+      });
+
+      // Fungsi untuk mendapatkan nama hari saat ini
+      function getTodayDay() {
+        const days = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+        const today = new Date();
+        return days[today.getDay()]; // Mengembalikan nama hari
+      }
     </script>
-</body>
+  </body>
 </html>
