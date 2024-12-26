@@ -407,6 +407,15 @@
         const today = new Date();
         return days[today.getDay()]; // Mengembalikan nama hari
       }
+
+      function logout() {
+        // Hapus token dari localStorage
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("user"); // Jika ada data user disimpan, hapus juga
+
+        // Redirect ke halaman login
+        window.location.href = "LoginPG.html";
+     }
     </script>
   </body>
 </html>
