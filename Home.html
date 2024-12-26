@@ -383,8 +383,14 @@
     </section>
 
     <script>
-      // Load username from localStorage
       document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+        if (!token) {
+          // Jika tidak ada token, redirect ke login
+          window.location.href = "LoginPG.html";
+        }
+
+        // Load username from localStorage
         const user = JSON.parse(localStorage.getItem("user"));
         const usernameDisplay = document.getElementById("username-display");
 

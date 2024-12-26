@@ -163,53 +163,58 @@
       </div>
     </section>
     <script>
-      // JavaScript untuk menangani login form
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault(); // Prevent page reload
-
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-          const rememberMe = document.getElementById("rememberMe").checked;
-
-          try {
-            // Send data to backend
-            const response = await fetch(
-              "http://localhost:5000/api/users/login",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-              }
-            );
-
-            if (!response.ok) {
-              const errorData = await response.json();
-              alert(
-                `Error: ${errorData.message || "Invalid email or password"}`
-              );
-              return;
-            }
-
-            const data = await response.json(); // Get the token and username
-            const { token, username } = data;
-
-            // Save the token in localStorage
-            localStorage.setItem("authToken", token);
-
-            // Save user info in localStorage
-            const userInfo = { email, username };
-            localStorage.setItem("user", JSON.stringify(userInfo));
-
-            alert("Login successful!");
-            window.location.href = "Home.html"; // Redirect to Home.html
-          } catch (error) {
-            console.error("Error:", error);
-            alert("Error: Could not connect to the server.");
+      // Periksa apakah pengguna sudah login sebelumnya
+      document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+        if (token) {
+          window.location.href = "Home.html"; // Redirect ke halaman Home
+        }
+      });
+    
+      // Login form handler
+      document.getElementById("loginForm").addEventListener("submit", async function (e) {
+        e.preventDefault(); // Prevent page reload
+    
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const rememberMe = document.getElementById("rememberMe").checked;
+    
+        try {
+          // Kirim permintaan ke backend
+          const response = await fetch("http://localhost:5000/api/users/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+    
+          if (!response.ok) {
+            const errorData = await response.json();
+            alert(`Error: ${errorData.message || "Invalid email or password"}`);
+            return;
           }
-        });
-
+    
+          const data = await response.json(); // Ambil token dan username
+          const { token, username } = data;
+    
+          // Simpan token di localStorage atau sessionStorage berdasarkan Remember Me
+          if (rememberMe) {
+            localStorage.setItem("authToken", token); // Simpan token di localStorage
+          } else {
+            sessionStorage.setItem("authToken", token); // Simpan token di sessionStorage
+          }
+    
+          // Simpan informasi user
+          const userInfo = { email, username };
+          localStorage.setItem("user", JSON.stringify(userInfo));
+    
+          alert("Login successful!");
+          window.location.href = "Home.html"; // Redirect ke Home.html
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Error: Could not connect to the server.");
+        }
+      });
+    
       // Check if "Remember Me" was previously selected
       const storedUser = JSON.parse(localStorage.getItem("user"));
       if (storedUser) {
@@ -217,5 +222,6 @@
         document.getElementById("rememberMe").checked = true;
       }
     </script>
+    
   </body>
 </html>
