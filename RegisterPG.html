@@ -5,38 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register - TeensSport</title>
     <style>
-      /* Global Styles */
       body {
         margin: 0;
         font-family: "Poppins", sans-serif;
         background: url("Images/teensport3.png") no-repeat center center/cover;
         color: white;
-      }
-
-      section {
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 100vh;
+        height: 100vh;
       }
 
       .form-box {
         position: relative;
         width: 400px;
-        height: 450px;
         background: transparent;
         border: 2px solid #4caf50;
         border-radius: 50px;
         backdrop-filter: blur(10px);
+        padding: 30px;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
+        justify-content: center;
       }
 
       h2 {
         font-size: 2em;
         color: #fff;
         text-align: center;
+        margin-bottom: 20px;
       }
 
       .inputbox {
@@ -83,7 +81,8 @@
 
       button {
         width: 100%;
-        height: 40px;
+        max-width: 330px;
+        height: 50px;
         border-radius: 40px;
         background: #4caf50;
         border: none;
@@ -91,95 +90,294 @@
         cursor: pointer;
         font-size: 1em;
         font-weight: 600;
+        margin-top: 20px;
       }
 
       button:hover {
         background: #45a049;
       }
 
-      .Login {
+      .popup {
+        position: absolute;
+        left: 105%; /* Sedikit ke kanan input */
+        top: 0;
+        transform: translateX(10px); /* Tambahkan jarak */
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        width: 250px;
+        z-index: 1000;
+        display: none; /* Default tersembunyi */
+        opacity: 0; /* Mulai dengan tidak terlihat */
         font-size: 0.9em;
-        color: #fff;
+        color: black;
+        transition: opacity 0.3s ease, transform 0.3s ease; /* Transisi */
+      }
+
+      .popup.show {
+        display: block; /* Tampilkan pop-up */
+        opacity: 1; /* Jadikan terlihat */
+        transform: translateX(0); /* Hilangkan jarak transisi */
+      }
+
+      .popup ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .popup ul li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        color: #f44336;
+      }
+
+      .popup ul li.valid {
+        color: #4caf50;
+      }
+
+      .popup ul li ion-icon {
+        margin-right: 10px;
+      }
+
+      .login-link {
         text-align: center;
-        margin: 25px 0 10px;
+        margin-top: 10px;
+        font-size: 0.9em;
       }
 
-      .Login p a {
+      .login-link a {
+        color: #4caf50;
         text-decoration: none;
-        color: #fff;
-        font-weight: 600;
       }
 
-      .Login p a:hover {
+      .login-link a:hover {
         text-decoration: underline;
       }
     </style>
   </head>
   <body>
-    <section>
-      <div class="form-box">
-        <div class="form-value">
-          <form id="registerForm">
-            <h2>Register</h2>
-            <div class="inputbox">
-              <ion-icon name="person"></ion-icon>
-              <input type="text" id="username" name="username" required />
-              <label for="username">Username</label>
-            </div>
-            <div class="inputbox">
-              <ion-icon name="mail-outline"></ion-icon>
-              <input type="email" id="email" name="email" required />
-              <label for="email">Email</label>
-            </div>
-            <div class="inputbox">
-              <ion-icon name="lock-closed-outline"></ion-icon>
-              <input type="password" id="password" name="password" required />
-              <label for="password">Password</label>
-            </div>
-            <button type="submit">Register</button>
-            <div class="Login">
-              <p>Have an account? <a href="LoginPG.html">Login</a></p>
-            </div>
-          </form>
+    <div class="form-box">
+      <form id="registerForm" autocomplete="off">
+        <h2>Register</h2>
+        <div class="inputbox">
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder=" "
+            autocomplete="off"
+            required
+          />
+          <label for="username">Username</label>
+          <div id="usernamePopup" class="popup">
+            <p>Masukkan username Anda.</p>
+          </div>
         </div>
-      </div>
-    </section>
+        <div class="inputbox">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder=" "
+            autocomplete="off"
+            required
+          />
+          <label for="email">Email</label>
+          <div id="emailPopup" class="popup">
+            <h4>Email Requirements:</h4>
+            <ul>
+              <li id="emailFormat" class="invalid">
+                <ion-icon name="close-circle"></ion-icon>
+                Format valid (contoh: name@example.com)
+              </li>
+            </ul>
+          </div>          
+        </div>
+        <div class="inputbox">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder=" "
+            autocomplete="new-password"
+            required
+          />
+          <label for="password">Password</label>
+          <div id="passwordPopup" class="popup">
+            <h4>Password Requirements:</h4>
+            <ul>
+              <li id="length">
+                <ion-icon name="close-circle"></ion-icon> Minimal 8 karakter
+              </li>
+              <li id="criteria">
+                <ion-icon name="close-circle"></ion-icon> Ada huruf dan angka/simbol
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="inputbox">
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder=" "
+            autocomplete="new-password"
+            required
+          />
+          <label for="confirmPassword">Confirm Password</label>
+          <div id="confirmPopup" class="popup">
+            <h4>Password Match:</h4>
+            <ul>
+              <li id="match" class="invalid">
+                <ion-icon name="close-circle"></ion-icon>
+                Password belum cocok
+              </li>
+            </ul>
+          </div>
+        </div>
+        <button type="submit">Register</button>
+        <div class="login-link">
+          <p>Have an account? <a href="LoginPG.html">Login</a></p>
+        </div>
+      </form>
+    </div>
     <script>
-      // Event listener untuk form submit
-      document
-        .getElementById("registerForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault(); // Mencegah halaman reload
+      const form = document.getElementById("registerForm");
+      const passwordInput = document.getElementById("password");
+      const emailInput = document.getElementById("email");
+      const confirmPasswordInput = document.getElementById("confirmPassword");
+    
+      // Validasi Email
+      emailInput.addEventListener("input", function () {
+        const value = emailInput.value;
+        const isValid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value); // Regex diperbarui
+        validateCriteria("emailFormat", isValid, "emailPopup");
+        showPopup("emailPopup");
+      });
+      emailInput.addEventListener("blur", () => hidePopup("emailPopup"));
+    
+      // Validasi Password
+      passwordInput.addEventListener("input", function () {
+        const value = passwordInput.value;
+        validateCriteria("length", value.length >= 8, "passwordPopup");
+        validateCriteria(
+          "criteria",
+          /[A-Za-z]/.test(value) && /[\d@$!%*?&]/.test(value),
+          "passwordPopup"
+        );
+        showPopup("passwordPopup");
+      });
+      passwordInput.addEventListener("blur", () => hidePopup("passwordPopup"));
+    
+      // Validasi Confirm Password
+      confirmPasswordInput.addEventListener("input", function () {
+        const match = confirmPasswordInput.value === passwordInput.value;
+        const confirmPopupList = document.querySelector("#confirmPopup ul");
+    
+        confirmPopupList.innerHTML = match
+          ? `<li class="valid">
+              <ion-icon name="checkmark-circle"></ion-icon>
+              Password sudah cocok
+            </li>`
+          : `<li class="invalid">
+              <ion-icon name="close-circle"></ion-icon>
+              Password belum cocok
+            </li>`;
+        showPopup("confirmPopup");
+      });
+      confirmPasswordInput.addEventListener("blur", () => hidePopup("confirmPopup"));
+    
+      // Fungsi Validasi Kriteria
+      function validateCriteria(id, isValid, popupId) {
+        const element = document.querySelector(`#${popupId} #${id}`);
+        const icon = element.querySelector("ion-icon");
+        if (isValid) {
+          element.classList.add("valid");
+          element.classList.remove("invalid");
+          icon.name = "checkmark-circle";
+        } else {
+          element.classList.add("invalid");
+          element.classList.remove("valid");
+          icon.name = "close-circle";
+        }
+      }
+    
+      // Fungsi Pop-up
+      function showPopup(popupId) {
+        const popup = document.getElementById(popupId);
+        if (popup) {
+          console.log(`Menampilkan pop-up: ${popupId}`); // Debugging
+          popup.classList.add("show");
+        }
+      }
 
-          // Ambil data dari form
-          const username = document.getElementById("username").value;
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
+      function hidePopup(popupId) {
+        const popup = document.getElementById(popupId);
+        if (popup) {
+          console.log(`Menyembunyikan pop-up: ${popupId}`); // Debugging
+          popup.classList.remove("show");
+        }
+      }
 
-          try {
-            // Kirim data ke backend
-            const response = await fetch(
-              "http://localhost:5000/api/users/register",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, email, password }),
-              }
-            );
+    
+      // Submit Form
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-            const result = await response.json();
+        const submitButton = form.querySelector("button[type='submit']");
+        submitButton.disabled = true; // Nonaktifkan tombol
 
-            if (response.ok) {
-              alert("Registration successful!");
-              window.location.href = "LoginPG.html"; // Redirect ke halaman login
-            } else {
-              alert("Error: " + (result.error || "Something went wrong"));
-            }
-          } catch (error) {
-            console.error("Error:", error);
-            alert("Error: Could not connect to the server.");
+        const username = document.getElementById("username").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        const isEmailValid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+
+        if (!username || !email || !password) {
+          alert("Semua field harus diisi!");
+          submitButton.disabled = false; // Aktifkan kembali tombol
+          return;
+        }
+
+        if (!isEmailValid) {
+          alert("Format email tidak valid!");
+          submitButton.disabled = false; // Aktifkan kembali tombol
+          return;
+        }
+
+        if (confirmPasswordInput.value !== password) {
+          alert("Password dan konfirmasi password tidak cocok!");
+          submitButton.disabled = false; // Aktifkan kembali tombol
+          return;
+        }
+
+        try {
+          const response = await fetch("http://localhost:5000/api/users/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, email, password }),
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            alert("Registrasi berhasil!");
+            window.location.href = "LoginPG.html";
+          } else {
+            alert("Error: " + (result.error || "Registrasi gagal."));
           }
-        });
-    </script>
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Terjadi kesalahan. Coba lagi nanti.");
+        } finally {
+          submitButton.disabled = false; // Aktifkan kembali tombol setelah proses selesai
+        }
+      });
+    </script>      
   </body>
 </html>
