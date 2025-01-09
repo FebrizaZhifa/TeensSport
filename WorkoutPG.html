@@ -210,212 +210,162 @@
       <p>Select a day to see the workout routines.</p>
     </div>
 
-    <script>
-      const dayButtons = document.querySelectorAll(".day-button");
-      const routineContainer = document.getElementById("routine-container");
+<script>
+  const dayButtons = document.querySelectorAll(".day-button");
+  const routineContainer = document.getElementById("routine-container");
 
-      dayButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          dayButtons.forEach((btn) => btn.classList.remove("active"));
-          button.classList.add("active");
+  dayButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      dayButtons.forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
 
-          const day = button.getAttribute("data-day");
-          fetchWorkouts(day);
-        });
-      });
+      const day = button.getAttribute("data-day");
+      fetchWorkouts(day);
+    });
+  });
 
-      async function fetchWorkouts(day) {
-        const token = localStorage.getItem("authToken");
-        try {
-          const response = await fetch(
-            `http://localhost:5000/api/workouts?day=${day}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
+  async function fetchWorkouts(day) {
+  const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+  console.log("Token being sent:", token); // Debug token
 
-          if (!response.ok) {
-            throw new Error("Failed to fetch workouts");
-          }
+  if (!token) {
+    alert("Authentication token missing. Redirecting to login.");
+    window.location.href = "LoginPG.html";
+    return;
+  }
 
-          const workouts = await response.json();
-          displayWorkouts(workouts);
-        } catch (error) {
-          console.error(error);
-          routineContainer.innerHTML =
-            "<p>Failed to load workouts. Please try again later.</p>";
+  try {
+    const response = await fetch(`http://localhost:5000/api/workouts?day=${day}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    console.log("API Response:", response); // Debug API response
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch workouts: " + response.statusText);
+    }
+
+    const workouts = await response.json();
+    displayWorkouts(workouts);
+  } catch (error) {
+    console.error("Error fetching workouts:", error);
+    routineContainer.innerHTML = "<p>Failed to load workouts. Please try again later.</p>";
+  }
+}
+
+
+  function displayWorkouts(workouts) {
+    routineContainer.innerHTML = "";
+
+    if (workouts.length === 0) {
+      routineContainer.innerHTML =
+        "<p>No workouts available for the selected day.</p>";
+      return;
+    }
+
+    workouts.forEach((workout) => {
+      const card = document.createElement("div");
+      card.className = "routine-card";
+      card.innerHTML = `
+        <h3>${workout.name}</h3>
+        <ul>${workout.exercises
+          .map((ex) => `<li>${ex}</li>`)
+          .join("")}</ul>
+        <button class="edit" onclick="editWorkout('${workout.id}')">Edit</button>
+        <button class="delete" onclick="deleteWorkout('${workout.id}')">Delete</button>
+      `;
+      routineContainer.appendChild(card);
+    });
+  }
+
+  function editWorkout(id) {
+    localStorage.setItem("workoutId", id);
+    window.location.href = "StartPG.html";
+  }
+
+  async function deleteWorkout(id) {
+    const token =
+      localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+    if (!token) {
+      alert("Authentication token missing. Redirecting to login.");
+      window.location.href = "LoginPG.html";
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/workouts/${id}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
         }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete workout: " + response.statusText);
       }
 
-      function displayWorkouts(workouts) {
-        routineContainer.innerHTML = "";
+      alert("Workout deleted successfully!");
 
-        if (workouts.length === 0) {
-          routineContainer.innerHTML =
-            "<p>No workouts available for the selected day.</p>";
-          return;
-        }
+      // Refresh workout list for the active day
+      const activeDay = document
+        .querySelector(".day-button.active")
+        .getAttribute("data-day");
 
-        workouts.forEach((workout) => {
-          const card = document.createElement("div");
-          card.className = "routine-card";
-          card.innerHTML = `
-                    <h3>${workout.name}</h3>
-                    <ul>${workout.exercises
-                      .map((ex) => `<li>${ex}</li>`)
-                      .join("")}</ul>
-                    <button class="edit" onclick="editWorkout('${
-                      workout.id
-                    }')">Edit</button>
-                    <button class="delete" onclick="deleteWorkout('${
-                      workout.id
-                    }')">Delete</button>
-                `;
-          routineContainer.appendChild(card);
-        });
-      }
+      fetchWorkouts(activeDay);
+    } catch (error) {
+      console.error("Error deleting workout:", error);
+      alert("Failed to delete workout. Please try again.");
+    }
+  }
 
-      function editWorkout(id) {
-        localStorage.setItem("workoutId", id);
-        window.location.href = "StartPG.html";
-      }
+  document.addEventListener("DOMContentLoaded", () => {
+    // Load user info
+    const user = JSON.parse(localStorage.getItem("user")) || {};
+    const usernameDisplay = document.getElementById("username-display");
 
-      async function deleteWorkout(id) {
-        const token = localStorage.getItem("authToken");
-        try {
-          const response = await fetch(
-            `http://localhost:5000/api/workouts/${id}`,
-            {
-              method: "DELETE",
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
+    if (user.username) {
+      usernameDisplay.textContent = `Hello, ${user.username}`;
+    } else {
+      usernameDisplay.textContent = "Hello, User";
+    }
 
-          if (!response.ok) {
-            throw new Error("Failed to delete workout.");
-          }
+    // Automatically select today's workout
+    const currentDay = getTodayDay();
+    const todayButton = document.querySelector(
+      `.day-button[data-day="${currentDay}"]`
+    );
 
-          alert("Workout deleted successfully!");
+    if (todayButton) {
+      todayButton.click(); // Automatically click to load today's routines
+    }
+  });
 
-          const activeDay = document
-            .querySelector(".day-button.active")
-            .getAttribute("data-day");
+  function getTodayDay() {
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const today = new Date();
+    return days[today.getDay()]; // Returns today's day
+  }
 
-          // Fetch workouts kembali untuk memeriksa apakah workout masih ada
-          const hasWorkout = await checkExistingWorkout(activeDay);
+  function logout() {
+    // Clear localStorage and sessionStorage
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("authToken");
+    sessionStorage.removeItem("user");
 
-          const newRoutineButton = document.querySelector(".add-new");
-          if (!hasWorkout) {
-            newRoutineButton.disabled = false;
-            newRoutineButton.textContent = "New Routine";
-            newRoutineButton.onclick = () => {
-              localStorage.setItem("workoutDay", activeDay);
-              window.location.href = "StartPG.html";
-            };
-          }
+    alert("You have successfully logged out.");
+    window.location.href = "LoginPG.html";
+  }
+</script>
 
-          fetchWorkouts(activeDay); // Refresh tampilan routines
-        } catch (error) {
-          console.error(error);
-          alert("Failed to delete workout.");
-        }
-      }
-
-      async function checkExistingWorkout(day) {
-        const token = localStorage.getItem("authToken");
-        try {
-          const response = await fetch(
-            `http://localhost:5000/api/workouts?day=${day}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
-
-          const workouts = await response.json();
-          if (workouts.length > 0) {
-            const workout = workouts[0]; // Ambil workout pertama
-            localStorage.setItem("workoutId", workout.id); // Simpan ID workout
-            return true;
-          } else {
-            localStorage.removeItem("workoutId"); // Hapus jika tidak ada workout
-            return false;
-          }
-        } catch (error) {
-          console.error("Error checking existing workout:", error);
-          return false;
-        }
-      }
-
-      document.querySelectorAll(".day-button").forEach((button) => {
-        button.addEventListener("click", async (e) => {
-          const day = e.target.getAttribute("data-day");
-
-          const hasWorkout = await checkExistingWorkout(day);
-          const newRoutineButton = document.querySelector(".add-new");
-
-          if (hasWorkout) {
-            newRoutineButton.textContent = "Edit Workout";
-            newRoutineButton.onclick = () => {
-              localStorage.setItem("workoutDay", day);
-              window.location.href = "StartPG.html"; // Arahkan ke mode Edit
-            };
-          } else {
-            newRoutineButton.textContent = "New Routine";
-            newRoutineButton.onclick = () => {
-              localStorage.setItem("workoutDay", day);
-              window.location.href = "StartPG.html"; // Arahkan ke mode Create
-            };
-          }
-        });
-      });
-
-      document.addEventListener("DOMContentLoaded", () => {
-        // Ambil data user dari localStorage
-        const user = JSON.parse(localStorage.getItem("user"));
-        const usernameDisplay = document.getElementById("username-display");
-
-        if (user && user.username) {
-          usernameDisplay.textContent = `Hello, ${user.username}`;
-        } else {
-          usernameDisplay.textContent = "Hello, User";
-        }
-
-        // Menentukan hari saat ini
-        const currentDay = getTodayDay();
-
-        // Temukan tombol hari yang sesuai
-        const todayButton = document.querySelector(
-          `.day-button[data-day="${currentDay}"]`
-        );
-
-        if (todayButton) {
-          todayButton.click(); // Klik otomatis untuk memuat workout hari ini
-        }
-      });
-
-      // Fungsi untuk mendapatkan nama hari saat ini
-      function getTodayDay() {
-        const days = [
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ];
-        const today = new Date();
-        return days[today.getDay()]; // Mengembalikan nama hari
-      }
-
-      function logout() {
-        // Hapus token dari localStorage
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("user"); // Jika ada data user disimpan, hapus juga
-
-        // Redirect ke halaman login
-        window.location.href = "LoginPG.html";
-     }
-    </script>
   </body>
 </html>

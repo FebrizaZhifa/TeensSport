@@ -370,11 +370,15 @@
       });
 
       function logout() {
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("user");
-        alert("You have successfully logged out.");
-        window.location.href = "LoginPG.html";
-      }
+    // Clear localStorage and sessionStorage
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("authToken");
+    sessionStorage.removeItem("user");
+
+    alert("You have successfully logged out.");
+    window.location.href = "LoginPG.html";
+  }
     </script>
   </body>
 </html>

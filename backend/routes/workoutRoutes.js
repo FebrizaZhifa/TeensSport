@@ -5,8 +5,6 @@ const authenticate = require('../middleware/authenticate');
 const router = express.Router();
 
 // Endpoint untuk CRUD workout
-
-
 router.get('/:id', authenticate, getWorkoutById);
 router.post('/', authenticate, createWorkout);
 router.get('/', authenticate, getWorkouts);

@@ -383,31 +383,42 @@
     </section>
 
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
-        if (!token) {
-          // Jika tidak ada token, redirect ke login
-          window.location.href = "LoginPG.html";
-        }
+    document.addEventListener("DOMContentLoaded", () => {
+      const token =
+        localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
 
-        // Load username from localStorage
-        const user = JSON.parse(localStorage.getItem("user"));
-        const usernameDisplay = document.getElementById("username-display");
-
-        if (user && user.username) {
-          usernameDisplay.textContent = `Hello, ${user.username}`;
-        } else {
-          usernameDisplay.textContent = "Hello, User";
-        }
-      });
-
-      function logout() {
-        // Hapus data localStorage
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("user");
-        alert("You have successfully logged out.");
+      if (!token) {
+        // Jika tidak ada token, redirect ke login
         window.location.href = "LoginPG.html";
+        return;
       }
+
+      // Load data user dari localStorage
+      const user = JSON.parse(localStorage.getItem("user")) || {};
+      const usernameDisplay = document.getElementById("username-display");
+
+      // Tampilkan username jika tersedia
+      if (user.username) {
+        usernameDisplay.textContent = `Hello, ${user.username}`;
+      } else {
+        usernameDisplay.textContent = "Hello, User";
+      }
+    });
+
+    function logout() {
+      // Hapus data dari localStorage dan sessionStorage
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("user");
+      sessionStorage.removeItem("authToken");
+      sessionStorage.removeItem("user");
+
+      // Beri notifikasi kepada user
+      alert("You have successfully logged out.");
+
+      // Redirect ke halaman login
+      window.location.href = "LoginPG.html";
+    }
+
     </script>
   </body>
 </html>

@@ -332,119 +332,133 @@
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", async () => {
-        const workoutId = localStorage.getItem("workoutId"); // Ambil workout ID dari localStorage
-        const day = localStorage.getItem("workoutDay");
+document.addEventListener("DOMContentLoaded", async () => {
+  // Ambil token dari localStorage atau sessionStorage
+  const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+  console.log("Token in StartPG:", token); // Debug token
 
-        if (!day) {
-          alert("No day selected. Please go back and select a day.");
-          return goBack();
-        }
+  if (!token) {
+    alert("Authentication token is missing. Please log in again.");
+    window.location.href = "LoginPG.html";
+    return;
+  }
 
-        if (workoutId) {
-          document.getElementById("pageTitle").textContent = "Edit Workout";
-          await loadWorkoutDetails(workoutId); // Panggil detail workout jika ID ada
-        } else {
-          document.getElementById(
-            "pageTitle"
-          ).textContent = `Create Workout for ${day}`;
-        }
+  const workoutId = localStorage.getItem("workoutId");
+  const day = localStorage.getItem("workoutDay");
+
+  if (!day) {
+    alert("No day selected. Please go back and select a day.");
+    return goBack();
+  }
+
+  if (workoutId) {
+    document.getElementById("pageTitle").textContent = "Edit Workout";
+    await loadWorkoutDetails(workoutId, token); // Kirim token ke fungsi loadWorkoutDetails
+  } else {
+    document.getElementById("pageTitle").textContent = `Create Workout for ${day}`;
+  }
+});
+
+async function loadWorkoutDetails(id, token) {
+  try {
+    const response = await fetch(`http://localhost:5000/api/workouts/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to load workout.");
+    }
+
+    // Ambil data workout dari respons API
+    const workout = await response.json();
+
+    // Isi nama workout ke input field
+    document.getElementById("workoutName").value = workout.name;
+
+    // Ceklis checkbox berdasarkan daftar exercises
+    if (Array.isArray(workout.exercises)) {
+      workout.exercises.forEach((exercise) => {
+        const checkbox = document.getElementById(exercise);
+        if (checkbox) checkbox.checked = true; // Centang checkbox jika sesuai
+      });
+    } else {
+      console.warn("Exercises are not in array format.");
+    }
+  } catch (error) {
+    console.error("Error loading workout details:", error);
+    alert("Failed to load workout details. Please try again.");
+  }
+}
+
+document
+  .getElementById("submitWorkout")
+  .addEventListener("click", async (event) => {
+    const submitButton = event.target;
+
+    // Disable button untuk mencegah multiple submissions
+    submitButton.disabled = true;
+
+    const workoutName = document.getElementById("workoutName").value;
+    const selectedExercises = Array.from(
+      document.querySelectorAll("input[type='checkbox']:checked")
+    ).map((checkbox) => checkbox.value);
+
+    if (!workoutName || selectedExercises.length === 0) {
+      alert("Please fill out all fields.");
+      submitButton.disabled = false; // Re-enable button
+      return;
+    }
+
+    const day = localStorage.getItem("workoutDay");
+    const workoutId = localStorage.getItem("workoutId"); // Ambil ID workout dari localStorage
+    const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+
+    // Pastikan token tersedia
+    if (!token) {
+      alert("Authentication token is missing. Please log in again.");
+      window.location.href = "LoginPG.html";
+      return;
+    }
+
+    const endpoint = workoutId
+      ? `http://localhost:5000/api/workouts/${workoutId}` // Endpoint untuk update workout
+      : "http://localhost:5000/api/workouts"; // Endpoint untuk create workout
+    const method = workoutId ? "PUT" : "POST"; // Gunakan metode yang sesuai
+
+    try {
+      const response = await fetch(endpoint, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Kirim token autentikasi
+        },
+        body: JSON.stringify({
+          name: workoutName,
+          day,
+          exercises: selectedExercises,
+        }),
       });
 
-      async function loadWorkoutDetails(id) {
-        const token = localStorage.getItem("authToken");
-        try {
-          const response = await fetch(
-            `http://localhost:5000/api/workouts/${id}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
-
-          if (!response.ok) {
-            throw new Error("Failed to load workout.");
-          }
-
-          // Ambil data workout dari respons API
-          const workout = await response.json();
-
-          // Isi nama workout ke input field
-          document.getElementById("workoutName").value = workout.name;
-
-          // Ceklis checkbox berdasarkan daftar exercises
-          if (Array.isArray(workout.exercises)) {
-            workout.exercises.forEach((exercise) => {
-              const checkbox = document.getElementById(exercise);
-              if (checkbox) checkbox.checked = true; // Centang checkbox jika sesuai
-            });
-          } else {
-            console.warn("Exercises are not in array format.");
-          }
-        } catch (error) {
-          console.error("Error loading workout details:", error);
-          alert("Failed to load workout details. Please try again.");
-        }
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error response from server:", errorData);
+        throw new Error(errorData.error || "Failed to save workout.");
       }
 
-      document
-        .getElementById("submitWorkout")
-        .addEventListener("click", async () => {
-          const submitButton = event.target;
+      alert(`Workout ${workoutId ? "updated" : "created"} successfully!`);
+      localStorage.removeItem("workoutId"); // Hapus ID workout dari localStorage
+      window.location.href = "WorkoutPG.html";
+    } catch (error) {
+      console.error("Error saving workout:", error);
+      alert("An error occurred while saving. Please try again.");
+    } finally {
+      submitButton.disabled = false; // Re-enable button
+    }
+  });
 
-          // Disable button untuk mencegah multiple submissions
-          submitButton.disabled = true;
-
-          const workoutName = document.getElementById("workoutName").value;
-          const selectedExercises = Array.from(
-            document.querySelectorAll("input[type='checkbox']:checked")
-          ).map((checkbox) => checkbox.value);
-
-          if (!workoutName || selectedExercises.length === 0) {
-            alert("Please fill out all fields.");
-            submitButton.disabled = false; // Re-enable button
-            return;
-          }
-
-          const day = localStorage.getItem("workoutDay");
-          const workoutId = localStorage.getItem("workoutId"); // Ambil ID workout dari localStorage
-          const token = localStorage.getItem("authToken");
-
-          const endpoint = workoutId
-            ? `http://localhost:5000/api/workouts/${workoutId}` // Gunakan endpoint untuk update
-            : "http://localhost:5000/api/workouts"; // Gunakan endpoint untuk create
-          const method = workoutId ? "PUT" : "POST"; // Gunakan metode yang sesuai
-
-          try {
-            const response = await fetch(endpoint, {
-              method,
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({
-                name: workoutName,
-                day,
-                exercises: selectedExercises,
-              }),
-            });
-
-            if (!response.ok) {
-              const errorData = await response.json();
-              throw new Error(errorData.error || "Failed to save workout.");
-            }
-
-            alert(`Workout ${workoutId ? "updated" : "created"} successfully!`);
-            localStorage.removeItem("workoutId"); // Hapus ID workout dari localStorage
-            window.location.href = "WorkoutPG.html";
-          } catch (error) {
-            console.error("Error saving workout:", error);
-            alert("An error occurred. Please try again.");
-          }
-        });
-
-      function goBack() {
-        window.location.href = "WorkoutPG.html";
-      }
-    </script>
+function goBack() {
+  window.location.href = "WorkoutPG.html";
+}
+  </script>
   </body>
 </html>
