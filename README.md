@@ -141,8 +141,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-For any questions or feedback, please contact [alvinnanda.kurniawan.com](mailto:alvinnanda.kurniawan.com)
+For any questions or feedback, please contact [alvinnanda.kurniawan@gmail.com](mailto:alvinnanda.kurniawan@gmail.com) & [febriza.zhifa@gmail.com](mailto:febriza.zhifa@gmail.com)
 
 ---
 
-Made with ❤️ by [Your Name/Team Name]
+Made with ❤️ by [TeenSport]
